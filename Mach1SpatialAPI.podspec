@@ -12,12 +12,13 @@ Mach1 Spatial APIs are all contained in this pod which includes:
     [Mach1EncodeCAPI, Mach1DecodeCAPI, Mach1DecodePositionalCAPI]
                        DESC
 
-  s.homepage         = 'http://www.mach1studios.com'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'http://dev.mach1.xyz'
   s.license          = { :type => 'Commercial', :file => 'LICENSE' }
   s.author           = { 'Mach1' => 'http://www.mach1studios.com' }
   s.documentation_url = 'http://dev.mach1.xyz'
   s.source           = { :git => 'https://github.com/Mach1Studios/Pod-Mach1SpatialAPI.git', :tag => s.version.to_s }
+  s.platform      = :ios, "12.0"
+  s.swift_version = "4.2"
 
   s.source_files = 'Mach1SpatialAPI/Classes/*.{h,swift}'
   s.public_header_files = 'Mach1SpatialAPI/Classes/*.h'
