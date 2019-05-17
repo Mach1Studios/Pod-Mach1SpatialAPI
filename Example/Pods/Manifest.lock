@@ -1,5 +1,5 @@
 PODS:
-  - Mach1SpatialAPI (0.1.0)
+  - Mach1SpatialAPI (0.1.1)
 
 DEPENDENCIES:
   - Mach1SpatialAPI (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Mach1SpatialAPI: e03f062bb65ffb20307506362beea1bd35981907
+  Mach1SpatialAPI: a0abbf183356f0d8df80c8cf5b89f6557dc7816c
 
 PODFILE CHECKSUM: 19dcac5cf1cd4b37b4f9b850d54de13977c8946b
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.0.rc.1
