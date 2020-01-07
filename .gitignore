@@ -1,3 +1,8 @@
+*.wav
+*.aif
+*.aiff
+*.mp3
+
 # OS X
 .DS_Store
 
