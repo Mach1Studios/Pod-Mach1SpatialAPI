@@ -5,7 +5,6 @@
 # Download audio files for iOS examples
 # 
 
-#build all binaries and codesign them for use
 if [[ $PWD/ = */Pod-Mach1SpatialAPI/* ]]
 then 
 	echo $PWD
