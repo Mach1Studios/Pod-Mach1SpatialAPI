@@ -14,6 +14,12 @@ To install it, simply add the following line to your Podfile after placing the `
 pod 'Mach1SpatialAPI', :path => 'Pod-Mach1SpatialAPI'
 ```
 
+## Download Audio Samples
+
+Please run the "download-audiofiles.sh" script from within this directory
+
+`./download-audiofiles.sh`
+
 ## Author
 
 Mach1
