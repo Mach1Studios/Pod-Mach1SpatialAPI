@@ -9,7 +9,7 @@ Mach1 Spatial APIs are all contained in this pod which includes:
                                   DESC
 
   s.homepage                 = 'http://dev.mach1.tech'
-  s.license                  = { :type => 'Commercial', :file => 'LICENSE' }
+  s.license                  = { :type => 'Commercial', :file => 'LICENSE.txt' }
   s.author                   = { 'Mach1' => 'http://www.mach1.tech' }
   s.documentation_url        = 'http://dev.mach1.tech'
   s.source                   = { :git => 'git@github.com:Mach1Studios/Pod-Mach1SpatialAPI.git', :tag => s.version.to_s }
