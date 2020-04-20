@@ -94,7 +94,7 @@ public class Mach1Decode {
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
         let rotation = Mach1Point3D(x: Yaw, y: Pitch, z: Roll)
         setRotationDegrees(rotation: rotation)
-        return decode(bufferSize: bufferSize, sampleIndex: sampleIndex)
+        return decodeCoeffs(bufferSize: bufferSize, sampleIndex: sampleIndex)
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume
         ///
