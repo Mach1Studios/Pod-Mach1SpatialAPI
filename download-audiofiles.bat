@@ -42,7 +42,5 @@ powershell -Command "Invoke-WebRequest -OutFile SciFi_Mono01.wav http://dev.mach
 powershell -Command "Invoke-WebRequest -OutFile SciFi_Mono02.wav http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/SciFi/SciFi_Mono02.wav"
 powershell -Command "Invoke-WebRequest -OutFile SciFi_Mono03.wav http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/SciFi/SciFi_Mono02.wav"
 cd ..\StereoTest
-powershell -Command "Invoke-WebRequest -OutFile M1_SDKDemo_Electronic_Stereo_L.wav wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Electronic_Stereo_L.wav"
-powershell -Command "Invoke-WebRequest -OutFile M1_SDKDemo_Electronic_Stereo_R.wav wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Electronic_Stereo_R.wav"
 powershell -Command "Invoke-WebRequest -OutFile M1_SDKDemo_Orchestral_Stereo_L.wav wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Orchestral_Stereo_L.wav"
 powershell -Command "Invoke-WebRequest -OutFile M1_SDKDemo_Orchestral_Stereo_R.wav wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Orchestral_Stereo_R.wav"

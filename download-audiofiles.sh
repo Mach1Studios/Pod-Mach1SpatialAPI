@@ -52,7 +52,5 @@ wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/SciFi/SciFi_M
 wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/SciFi/SciFi_Mono02.wav
 wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/SciFi/SciFi_Mono03.wav
 cd ../StereoTest
-wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Electronic_Stereo_L.wav
-wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Electronic_Stereo_R.wav
 wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Orchestral_Stereo_L.wav
 wget http://dev.mach1.xyz/mach1-sdk-sample-audio/ios/mach1-example/StereoTest/M1_SDKDemo_Orchestral_Stereo_R.wav

@@ -17,8 +17,6 @@
 		A4860B35226F772400F5B7A5 /* Nature_Mono01.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B32226F772400F5B7A5 /* Nature_Mono01.wav */; };
 		A4860B36226F772400F5B7A5 /* Nature_Mono02.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B33226F772400F5B7A5 /* Nature_Mono02.wav */; };
 		A4860B37226F772400F5B7A5 /* Nature_Mono03.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B34226F772400F5B7A5 /* Nature_Mono03.wav */; };
-		A49860E122A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_R.wav in Resources */ = {isa = PBXBuildFile; fileRef = A49860DF22A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_R.wav */; };
-		A49860E222A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_L.wav in Resources */ = {isa = PBXBuildFile; fileRef = A49860E022A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_L.wav */; };
 		A49860E522A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_R.wav in Resources */ = {isa = PBXBuildFile; fileRef = A49860E322A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_R.wav */; };
 		A49860E622A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_L.wav in Resources */ = {isa = PBXBuildFile; fileRef = A49860E422A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_L.wav */; };
 		CAE1A3A2644A02C5E85279CC /* Pods_mach1_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166D07286D50A3468A8735FE /* Pods_mach1_example.framework */; };
@@ -50,8 +48,6 @@
 		A4860B32226F772400F5B7A5 /* Nature_Mono01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono01.wav; sourceTree = "<group>"; };
 		A4860B33226F772400F5B7A5 /* Nature_Mono02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono02.wav; sourceTree = "<group>"; };
 		A4860B34226F772400F5B7A5 /* Nature_Mono03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono03.wav; sourceTree = "<group>"; };
-		A49860DF22A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_R.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = M1_SDKDemo_Electronic_Stereo_R.wav; sourceTree = "<group>"; };
-		A49860E022A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_L.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = M1_SDKDemo_Electronic_Stereo_L.wav; sourceTree = "<group>"; };
 		A49860E322A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_R.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = M1_SDKDemo_Orchestral_Stereo_R.wav; sourceTree = "<group>"; };
 		A49860E422A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_L.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = M1_SDKDemo_Orchestral_Stereo_L.wav; sourceTree = "<group>"; };
 		A5BE9187F813DBE5DE4367AC /* Pods-mach1-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mach1-example.debug.xcconfig"; path = "Target Support Files/Pods-mach1-example/Pods-mach1-example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,8 +86,6 @@
 		A49860DA22A995B200B1AA19 /* StereoTest */ = {
 			isa = PBXGroup;
 			children = (
-				A49860E022A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_L.wav */,
-				A49860DF22A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_R.wav */,
 				A49860E422A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_L.wav */,
 				A49860E322A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_R.wav */,
 			);
@@ -251,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4860B30226F771A00F5B7A5 /* SciFi_Mono02.wav in Resources */,
-				A49860E222A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_L.wav in Resources */,
 				A4860B31226F771A00F5B7A5 /* SciFi_Mono01.wav in Resources */,
 				A4860B2F226F771A00F5B7A5 /* SciFi_Mono03.wav in Resources */,
 				A49860E622A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_L.wav in Resources */,
@@ -263,7 +256,6 @@
 				A4860B35226F772400F5B7A5 /* Nature_Mono01.wav in Resources */,
 				CEB4AE2F2266469B00D014AF /* Main.storyboard in Resources */,
 				A49860E522A998D200B1AA19 /* M1_SDKDemo_Orchestral_Stereo_R.wav in Resources */,
-				A49860E122A9982600B1AA19 /* M1_SDKDemo_Electronic_Stereo_R.wav in Resources */,
 				CE71A073226762E10089B454 /* background.png in Resources */,
 				A4860B36226F772400F5B7A5 /* Nature_Mono02.wav in Resources */,
 			);
