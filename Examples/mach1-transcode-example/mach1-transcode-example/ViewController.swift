@@ -11,18 +11,19 @@ import CoreMotion
 import AVFoundation
 import Mach1SpatialAPI
 
-var motionManager = CMMotionManager()
-var stereoPlayer = AVAudioPlayer()
-var m1obj = Mach1Decode()
-var stereoActive = false
-var isYawActive = true
-var isPitchActive = false
-var isRollActive = false
-var isPlaying = false
+private var motionManager = CMMotionManager()
+private var m1Decode = Mach1Decode()
+private var m1Transcode = Mach1Transcode()
+
+private var isYawActive = true
+private var isPitchActive = false
+private var isRollActive = false
+private var isPlaying = false
 
 private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
-var players: [AVAudioPlayer] = []
+private var players: [AVAudioPlayer] = []
+private var matrix: [[Float]] = []
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -31,12 +32,85 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var pitch: UILabel!
     @IBOutlet weak var roll: UILabel!
     
-    var pickerData: [String] = [String]()
+    struct AudioInput {
+        var name: String
+        var format: Mach1TranscodeFormatType
+        var files: [String]
+    }
+    
+    var pickerData: [AudioInput] = [
+        AudioInput(name: "ACNSN3D", format: Mach1TranscodeFormatACNSN3D, files: [
+            "guitar-acnsn3d-1",
+            "guitar-acnsn3d-2",
+            "guitar-acnsn3d-3",
+            "guitar-acnsn3d-4",
+            ]),
+        AudioInput(name: "FiveOneFilm_Cinema", format: Mach1TranscodeFormatFiveOneFilm_Cinema, files: [
+            "guitar-51Film-1",
+            "guitar-51Film-2",
+            "guitar-51Film-3",
+            "guitar-51Film-4",
+            "guitar-51Film-5",
+            "guitar-51Film-6",
+            ]),
+        ]
     
     @IBAction func playButton(_ sender: Any) {
         if !isPlaying {
-            print("selectedRow:", picker.selectedRow(inComponent: 0))
-  
+            let selectedAudio = picker.selectedRow(inComponent: 0)
+            print("selectedAudio:", selectedAudio)
+            
+            do {
+                players = []
+                
+                let cnt = m1Decode.getFormatChannelCount() / 2 - 1
+                var idx = 0
+                for c in 0..<cnt {
+                    for i in 0..<pickerData[selectedAudio].files.count {
+                        //load in the individual streams of audio from a Mach1 Spatial encoded audio file
+                        //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
+                        players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
+                        players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
+                        
+                        players[idx].numberOfLoops = 10
+                        players[idx].pan = 1.0;
+                        players[idx].volume = 0.0;
+                        players[idx].prepareToPlay()
+                        idx = idx + 1
+                        
+                        players[idx].numberOfLoops = 10
+                        players[idx].pan = -1.0;
+                        players[idx].volume = 0.0;
+                        players[idx].prepareToPlay()
+                        idx = idx + 1
+                    }
+                }
+                
+                //Mach1 Transcode Setup
+                m1Transcode.setInputFormat(inFmt: pickerData[selectedAudio].format)
+                m1Transcode.setOutputFormat(outFmt: Mach1TranscodeFormatM1Spatial)
+                m1Transcode.processConversionPath()
+                matrix = m1Transcode.getMatrixConversion()
+                
+                m1Decode.beginBuffer()
+                m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: 0, y: 0, z: 0))
+                let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
+                m1Decode.endBuffer()
+                
+                //print(decodeArray)
+                
+                //Use each coeff to decode multichannel Mach1 Spatial mix
+                for i in 0..<result.count {
+                    players[i].setVolume(result[i], fadeDuration: 0)
+                    //print(String(players[i].currentTime) + " ; " + String(i))
+                }
+                
+                
+            } catch {
+                print (error)
+            }
+            
+            
             let startDelayTime = 1.0
             let now = players[0].deviceCurrentTime
             let startTime = now + startDelayTime
@@ -44,85 +118,52 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             for audioPlayer in players {
                 audioPlayer.play(atTime: startTime)
             }
-            //stereoPlayer.play()
             print("isPlaying")
             isPlaying = true
         }
     }
+    
     @IBAction func stopButton(_ sender: Any) {
+        isPlaying = false
+
         for audioPlayer in players {
             audioPlayer.stop()
         }
-        isPlaying = false
-        //stereoPlayer.stop()
-        // prep files for next play
-        for i in 0...7 {
-            players[i * 2].prepareToPlay()
-            players[i * 2 + 1].prepareToPlay()
-        }
-        //stereoPlayer.prepareToPlay()
+        players = []
     }
-    @IBAction func staticStereoActive(_ sender: Any) {
-        stereoActive = !stereoActive
-    }
+    
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
     }
+    
     @IBAction func pitchActive(_ sender: Any) {
         isPitchActive = !isPitchActive
     }
+    
     @IBAction func rollActive(_ sender: Any) {
         isRollActive = !isRollActive
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Connect data:
         self.picker.delegate = self
         self.picker.dataSource = self
-        pickerData = ["audio 1", "audio 2", "audio 3", "audio 4", "audio 5", "audio 6"]
         
         do {
-            for i in 0...7 {
-                //load in the individual streams of audio from a Mach1 Spatial encoded audio file
-                //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
-                players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!)))
-                players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!)))
-                
-                players[i * 2].numberOfLoops = 10
-                players[i * 2 + 1].numberOfLoops = 10
-                
-                //the Mach1Decode function 8*2 channels to correctly recreate the stereo image
-                players[i * 2].pan = -1.0;
-                players[i * 2 + 1].pan = 1.0;
-                
-                players[i * 2].prepareToPlay()
-                players[i * 2 + 1].prepareToPlay()
-                
-            }
-            
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformiOS)
+            m1Decode.setPlatformType(type: Mach1PlatformiOS)
             //Setup the expected spatial audio mix format for decoding
-            m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
+            m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
             //1.0 = no filter | 0.1 = slow filter
-            m1obj.setFilterSpeed(filterSpeed: 1.0)
+            m1Decode.setFilterSpeed(filterSpeed: 1.0)
             
         } catch {
             print (error)
         }
-        
-        
-        //Static Stereo
-        do{
-            stereoPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "stereo", ofType: "wav")!))
-        } catch {
-            print(error)
-        }
-        stereoPlayer.prepareToPlay()
-        print(stereoPlayer)
         
         //TODO: split audio channels for independent coeffs from our lib
         //let channelCount = audioPlayer.numberOfChannels
@@ -152,26 +193,24 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 //                    let deviceRoll = 0.0
                 //                    print("Yaw: ", deviceYaw)
                 //                    print("Pitch: ", devicePitch)
-
+                
                 // Please notice that you're expected to correct the correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
                 // (documentation URL here)
                 switch UIDevice.current.orientation{
-                    case .portrait:
-                        deviceYaw += 90
-                        devicePitch -= 90
-                    case .portraitUpsideDown:
-                        deviceYaw -= 90
-                        devicePitch += 90
-                    case .landscapeLeft:
-                        deviceRoll += 90
-                    case .landscapeRight:
-                        deviceYaw += 180
-                        deviceRoll -= 90
-//                    default:
-                    
-                    default: break
-                    //
+                case .portrait:
+                    deviceYaw += 90
+                    devicePitch -= 90
+                case .portraitUpsideDown:
+                    deviceYaw -= 90
+                    devicePitch += 90
+                case .landscapeLeft:
+                    deviceRoll += 90
+                case .landscapeRight:
+                    deviceYaw += 180
+                    deviceRoll -= 90
+                default:
+                    break
                 }
                 
                 DispatchQueue.main.async() {
@@ -179,28 +218,22 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     self?.pitch.text = String(devicePitch)
                     self?.roll.text = String(deviceRoll)
                 }
-                //Mute stereo if off
-                if (stereoActive) {
-                    stereoPlayer.setVolume(1.0, fadeDuration: 0.1)
-                } else if (!stereoActive) {
-                    stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
-                }
                 
-                //Send device orientation to m1obj with the preferred algo
-                m1obj.beginBuffer()
-                let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-                m1obj.endBuffer()
-                //                    print(decodeArray)
-                
-                //Use each coeff to decode multichannel Mach1 Spatial mix
-                for i in 0...7 {
-                    players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
-                    players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
+                if isPlaying {
+                    //Send device orientation to m1obj with the preferred algo
+                    m1Decode.beginBuffer()
+                    m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
+                    let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
+                    m1Decode.endBuffer()
                     
-                    print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                    print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
+                    //print(decodeArray)
+                    
+                    //Use each coeff to decode multichannel Mach1 Spatial mix
+                    for i in 0..<result.count {
+                        players[i].setVolume(result[i], fadeDuration: 0)
+                        //print(String(players[i].currentTime) + " ; " + String(i))
+                    }
                 }
-                
                 
             })
             print("Device motion started")
@@ -227,7 +260,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     // The data to return fopr the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
+        return pickerData[row].name
     }
 }
+
 
