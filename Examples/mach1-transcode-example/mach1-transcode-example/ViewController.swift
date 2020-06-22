@@ -63,29 +63,26 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             do {
                 players = []
                 
-                let cnt = m1Decode.getFormatChannelCount() / 2 - 1
                 var idx = 0
-                for c in 0..<cnt {
-                    for i in 0..<pickerData[selectedAudio].files.count {
-                        //load in the individual streams of audio from a Mach1 Spatial encoded audio file
-                        //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
-                        players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
-                        players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
-                        
-                        players[idx].numberOfLoops = 10
-                        players[idx].pan = 1.0;
-                        players[idx].volume = 0.0;
-                        players[idx].prepareToPlay()
-                        idx = idx + 1
-                        
-                        players[idx].numberOfLoops = 10
-                        players[idx].pan = -1.0;
-                        players[idx].volume = 0.0;
-                        players[idx].prepareToPlay()
-                        idx = idx + 1
-                    }
+                for i in 0..<pickerData[selectedAudio].files.count {
+                    //load in the individual streams of audio from a Mach1 Spatial encoded audio file
+                    //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
+                    players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
+                    players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
+                    
+                    players[idx].numberOfLoops = 10
+                    players[idx].pan = 1.0;
+                    players[idx].volume = 0.0;
+                    players[idx].prepareToPlay()
+                    idx = idx + 1
+                    
+                    players[idx].numberOfLoops = 10
+                    players[idx].pan = -1.0;
+                    players[idx].volume = 0.0;
+                    players[idx].prepareToPlay()
+                    idx = idx + 1
                 }
-                
+
                 //Mach1 Transcode Setup
                 m1Transcode.setInputFormat(inFmt: pickerData[selectedAudio].format)
                 m1Transcode.setOutputFormat(outFmt: Mach1TranscodeFormatM1Spatial)
