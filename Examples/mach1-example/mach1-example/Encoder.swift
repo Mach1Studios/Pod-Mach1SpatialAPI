@@ -118,10 +118,10 @@ class Encoder: UIView {
         m1Encode.generatePointResults()
         
         //Use each coeff to decode multichannel Mach1 Spatial mix
-        var volumes : [Float] = m1Encode.getResultingVolumesDecoded(decodeType: decodeType, decodeResult: decodeArray)
+        var gains : [Float] = m1Encode.getResultingCoeffsDecoded(decodeType: decodeType, decodeResult: decodeArray)
 
         for i in 0..<players.count {
-            players[i].volume = volumes[i] * volume
+            players[i].volume = gains[i] * volume
         }
         
         self.setNeedsDisplay()
