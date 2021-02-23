@@ -27,7 +27,8 @@ permitted to use, link, compile and/or distribute any of the contents of this re
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run any of the example projects, clone the repo, and run `pod install` from the Example directory first.
+or setup all the examples by running `make build` in this directory
 
 ## Installation
 
@@ -40,9 +41,7 @@ pod 'Mach1SpatialAPI', :path => 'Pod-Mach1SpatialAPI'
 
 ## Download Audio Samples
 
-Please run the "download-audiofiles.sh" script from within this directory
-
-`./download-audiofiles.sh`
+- `make setup` within this directory will download the example audiofiles
 
 ## Author
 
