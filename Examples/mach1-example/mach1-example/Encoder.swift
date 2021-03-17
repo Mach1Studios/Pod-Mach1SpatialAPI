@@ -107,9 +107,9 @@ class Encoder: UIView {
         let rotation : Float = fmodf(atan2(-xInternal,yInternal) / (2 * Float.pi) + 0.5, 1.0) // 0 - 1
         let diverge : Float = sqrt(powf(xInternal,2) + powf(yInternal,2)) / sqrt(2) // diagonal
         
-        m1Encode.setRotation(rotation: rotation)
+        m1Encode.setAzimuth(azimuthFromMinus1To1: rotation)
         m1Encode.setDiverge(diverge: diverge)
-        m1Encode.setPitch(pitch: height)
+        m1Encode.setElevation(elevationFromMinus1to1: height)
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
         m1Encode.setInputMode(inputMode: type)

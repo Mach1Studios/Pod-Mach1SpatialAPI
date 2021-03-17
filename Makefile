@@ -3,7 +3,7 @@
 # Run via `make setup` in commandline
 # to download example audio files
 
-IOSDIR="http://dev.mach1.xyz/mach1-sdk-sample-audio/ios"
+IOSDIR="http://dev.mach1.tech/mach1-sdk-sample-audio/ios"
 
 # getting OS type
 ifeq ($(OS),Windows_NT)
