@@ -12,16 +12,13 @@ public class Encoder {
     public var masterGain : Float = 1.0;
     var m1Encode : Mach1Encode = Mach1Encode()
     var volume : Float = 1.0
-    //var players: [AVAudioPlayer] = [AVAudioPlayer(), AVAudioPlayer()]
     var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono;
-    //var spatialMixer : SpatialMixer = SpatialMixer();
     
     // MARK: AVAudio properties
     var engines: [AVAudioEngine] = [AVAudioEngine(), AVAudioEngine()]
     var players: [AVAudioPlayerNode] = [AVAudioPlayerNode(), AVAudioPlayerNode()]
-    var eqEffects: [AVAudioUnitEQ] = [AVAudioUnitEQ(), AVAudioUnitEQ()]
+    var eqEffects: [AVAudioUnitEffect] = [AVAudioUnitEffect(), AVAudioUnitEffect()]
     var bufferCounters : [Int] = [0,0]
-    //var player = AVAudioPlayerNode()
     let sampleRate: Float = 22050
     var converter = AVAudioConverter(from: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 1, interleaved: false)!, to: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!)
     var synthesizer = AVSpeechSynthesizer()
@@ -53,8 +50,7 @@ public class Encoder {
         self.players[0].pan = -1.0
         self.players[1].pan = 1.0
         
-        // Connecting the equalizer to the engine
-        setupAudio(globalGain: 0)
+        setupAudio()
         
         // Set voice message
         let utterance = AVSpeechUtterance(string: audioCue)
@@ -66,38 +62,18 @@ public class Encoder {
                     print("could not create buffer or buffer empty")
                     return
                 }
-                
-                // QUIRCK Need to convert the buffer to different format because AVAudioEngine does not support the format returned from AVSpeechSynthesizer
+                /// NOTE
+                /// Need to convert the buffer to different format because AVAudioEngine does not support the format returned from AVSpeechSynthesizer
                 let convertedBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: pcmBuffer.format.sampleRate, channels: pcmBuffer.format.channelCount, interleaved: false)!, frameCapacity: pcmBuffer.frameCapacity)!
                 do {
                     try self.converter!.convert(to: convertedBuffer, from: pcmBuffer)
-                    
-                    let fcd = convertedBuffer.floatChannelData!
-                    let capacity = convertedBuffer.frameCapacity
-                    
                     print(self.players.count)
                     // Schedule buffers
                     for i in 0...self.players.count-1{
-                        // When finished
-                        /*self.bufferCounters[i] += 1
-                      
-                        self.players[i].scheduleBuffer(convertedBuffer, completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
-                            DispatchQueue.main.async {
-                                self.bufferCounters[i] -= 1
-                                if self.bufferCounters[i] == 0 {
-                                    self.players[i].stop()
-                                    self.players[i].volume = 0.0
-                                    self.engines[i].stop()
-                                    try! self.audioSession.setActive(false, options: [])
-                                }
-                            }
-                        })*/
-                        
                         let playerSampleTime: AVAudioFramePosition? = self.players[0].lastRenderTime?.sampleTime
                         
                         let delay: Float = 0.1
                         guard (playerSampleTime != nil) else {
-//                            let startTime: AVAudioTime = AVAudioTime(sampleTime: 0 + Int64((delay * self.sampleRate)), atRate: Double(self.sampleRate))
                             print("adding buffer... 1")
                             self.players[i].scheduleBuffer(convertedBuffer,
 //                                                           at: startTime,
@@ -107,8 +83,6 @@ public class Encoder {
                             self.converter!.reset()
                             continue;
                         }
-                        
-//                        let startTime: AVAudioTime = AVAudioTime(sampleTime: playerSampleTime! + Int64((delay * self.sampleRate)), atRate: Double(self.sampleRate))
 
                         print("adding buffer... 2")
                         self.players[i].scheduleBuffer(convertedBuffer,
@@ -116,11 +90,8 @@ public class Encoder {
                                                        completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
                             print("Converted buffer added")
                         })
-
                     }
-                    
                     self.converter!.reset()
-                    //self.player.prepare(withFrameCount: convertedBuffer.frameLength)
                 }
                 catch let error {
                     print(error.localizedDescription)
@@ -141,7 +112,6 @@ public class Encoder {
         
         print("Playing...")
         play()
-        
     }
     
     func play() {
@@ -153,7 +123,6 @@ public class Encoder {
             let delay: Float = 0.1
             let startTime: AVAudioTime = AVAudioTime(sampleTime: playerSampleTime! + Int64((delay * sampleRate)), atRate: Double(sampleRate))
             self.players[i].play(at: startTime)
-            //self.players[i].play()
         }
     }
     
@@ -166,12 +135,11 @@ public class Encoder {
             self.engines[i].stop()
         }
         self.converter!.reset()
-        //try! self.audioSession.setActive(false, options: [])
-
     }
     
-    func setupAudio(globalGain: Float) {
-        // QUIRCK: Connecting the equalizer to the engine somehow starts the shared audioSession, and if that audiosession is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
+    func setupAudio() {
+        /// NOTE
+        /// Connecting an [AudioUnit] to the engine somehow starts the shared audioSession, and if that audiosession is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
         try? self.audioSession.setCategory(.playback, options: .mixWithOthers)
         
         for i in 0...engines.count-1{
@@ -184,7 +152,6 @@ public class Encoder {
         
         print("Session created")
     }
-    
     
     func activateAudioSession() {
         do {

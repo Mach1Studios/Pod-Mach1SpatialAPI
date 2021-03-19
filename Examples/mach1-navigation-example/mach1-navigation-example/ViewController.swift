@@ -12,14 +12,14 @@ class ViewController: UIViewController {
         print("Play pressed")
         
         encoder.activateAudioSession()
-        encoder.playSpatialAudioCue(audioCue: "Trying to play that")
+        encoder.playSpatialAudioCue(audioCue: "Take a right turn on Vestry Street")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        encoder.setupAudio(globalGain: 1.0)
+        encoder.setupAudio()
     }
 
 }
