@@ -1,0 +1,16 @@
+PODS:
+  - Mach1SpatialAPI (0.1.23)
+
+DEPENDENCIES:
+  - Mach1SpatialAPI (~> 0.1)
+
+SPEC REPOS:
+  trunk:
+    - Mach1SpatialAPI
+
+SPEC CHECKSUMS:
+  Mach1SpatialAPI: 699e8ff79bdd0024639b3e3ba346dafac8de8b02
+
+PODFILE CHECKSUM: c5c2405a2d06d0842469f3ab9ad66c491c3c4fe0
+
+COCOAPODS: 1.9.3
