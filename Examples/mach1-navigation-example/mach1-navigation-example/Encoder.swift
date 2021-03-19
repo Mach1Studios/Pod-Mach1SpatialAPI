@@ -174,16 +174,9 @@ public class Encoder {
         // QUIRCK: Connecting the equalizer to the engine somehow starts the shared audioSession, and if that audiosession is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
         try? self.audioSession.setCategory(.playback, options: .mixWithOthers)
         
-        for i in 0...eqEffects.count-1{
-            eqEffects[i].globalGain = globalGain
-        }
-        
         for i in 0...engines.count-1{
             engines[i].attach(players[i])
-            engines[i].attach(eqEffects[i])
-//            engines[i].connect(players[i], to: engines[i].mainMixerNode, format: outputFormat)
-            engines[i].connect(players[i], to: eqEffects[i], format: outputFormat)
-            engines[i].connect(eqEffects[i], to: engines[i].mainMixerNode, format: outputFormat)
+            engines[i].connect(players[i], to: engines[i].mainMixerNode, format: outputFormat)
             engines[i].prepare()
         }
         
