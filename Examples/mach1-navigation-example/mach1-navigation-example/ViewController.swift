@@ -1,21 +1,18 @@
 //
 //  ViewController.swift
-//  TTS_avplayer_test
-//
-//  Created by Alexey Popov on 19.03.2021.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
     
-    var playerArray: PlayerArray! = PlayerArray()
+    var Encoder: Encoder! = Encoder()
     
     @IBAction func PlayButtonPressed(_ sender: Any) {
         print("Play pressed")
         
-        playerArray.activateAudioSession()
-        playerArray.playSpatialAudioCue(audioCue: "Trying to play that")
+        Encoder.activateAudioSession()
+        Encoder.playSpatialAudioCue(audioCue: "Trying to play that")
     }
     
     override func viewDidLoad() {
@@ -24,7 +21,6 @@ class ViewController: UIViewController {
         
         playerArray.setupAudio(globalGain: 1.0)
     }
-
 
 }
 

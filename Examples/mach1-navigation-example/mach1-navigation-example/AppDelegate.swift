@@ -1,8 +1,5 @@
 //
 //  AppDelegate.swift
-//  TTS_avplayer_test
-//
-//  Created by Alexey Popov on 19.03.2021.
 //
 
 import UIKit

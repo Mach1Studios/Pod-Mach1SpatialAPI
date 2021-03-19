@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,7 @@
 		15F9505226040C6200B1F600 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F9505026040C6200B1F600 /* Main.storyboard */; };
 		15F9505426040C6300B1F600 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15F9505326040C6300B1F600 /* Assets.xcassets */; };
 		15F9505726040C6300B1F600 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F9505526040C6300B1F600 /* LaunchScreen.storyboard */; };
-		15F9506026040E4500B1F600 /* PlayerArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9505F26040E4500B1F600 /* PlayerArray.swift */; };
+		15F9506026040E4500B1F600 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9505F26040E4500B1F600 /* Encoder.swift */; };
 		5985714B741CADE18068457F /* Pods_mach1_navigation_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11D91A13BA1B1467629A81B /* Pods_mach1_navigation_example.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,7 +26,7 @@
 		15F9505326040C6300B1F600 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15F9505626040C6300B1F600 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15F9505826040C6300B1F600 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		15F9505F26040E4500B1F600 /* PlayerArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerArray.swift; sourceTree = "<group>"; };
+		15F9505F26040E4500B1F600 /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		2DFAA6CB7A5128A801F4B234 /* Pods-mach1-navigation-example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mach1-navigation-example.release.xcconfig"; path = "Target Support Files/Pods-mach1-navigation-example/Pods-mach1-navigation-example.release.xcconfig"; sourceTree = "<group>"; };
 		A11D91A13BA1B1467629A81B /* Pods_mach1_navigation_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mach1_navigation_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7A775A864BD5A25D26E4E4B /* Pods-mach1-navigation-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mach1-navigation-example.debug.xcconfig"; path = "Target Support Files/Pods-mach1-navigation-example/Pods-mach1-navigation-example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 				15F9504A26040C6200B1F600 /* AppDelegate.swift */,
 				15F9504C26040C6200B1F600 /* SceneDelegate.swift */,
 				15F9504E26040C6200B1F600 /* ViewController.swift */,
-				15F9505F26040E4500B1F600 /* PlayerArray.swift */,
+				15F9505F26040E4500B1F600 /* Encoder.swift */,
 				15F9505026040C6200B1F600 /* Main.storyboard */,
 				15F9505326040C6300B1F600 /* Assets.xcassets */,
 				15F9505526040C6300B1F600 /* LaunchScreen.storyboard */,
@@ -83,7 +83,6 @@
 				F7A775A864BD5A25D26E4E4B /* Pods-mach1-navigation-example.debug.xcconfig */,
 				2DFAA6CB7A5128A801F4B234 /* Pods-mach1-navigation-example.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -209,7 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15F9506026040E4500B1F600 /* PlayerArray.swift in Sources */,
+				15F9506026040E4500B1F600 /* Encoder.swift in Sources */,
 				15F9504F26040C6200B1F600 /* ViewController.swift in Sources */,
 				15F9504B26040C6200B1F600 /* AppDelegate.swift in Sources */,
 				15F9504D26040C6200B1F600 /* SceneDelegate.swift in Sources */,

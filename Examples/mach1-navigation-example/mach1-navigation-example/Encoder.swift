@@ -1,8 +1,5 @@
 //
 //  Encoder.swift
-//  audio_mapper_plugin
-//
-//  Created by Mario Lopez Batres on 26.02.21.
 //
 
 import Foundation
@@ -10,7 +7,7 @@ import Mach1SpatialAPI
 import AVFoundation
 import UIKit
 
-public class PlayerArray {
+public class Encoder {
     public var currentAzimiuthDegrees : Float = -90.0;
     public var masterGain : Float = 1.0;
     var m1Encode : Mach1Encode = Mach1Encode()
