@@ -174,7 +174,7 @@ public class Encoder {
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
         m1Encode.setInputMode(inputMode: type)
-        m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Horizon)
+        m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Spatial)
         m1Encode.generatePointResults()
         
         //Use each coeff to decode multichannel Mach1 Spatial mix
