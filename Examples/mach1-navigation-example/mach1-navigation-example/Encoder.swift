@@ -8,7 +8,7 @@ import AVFoundation
 import UIKit
 
 public class Encoder {
-    public var currentAzimiuthDegrees : Float = -90.0;
+    public var currentAzimiuthDegrees : Float = 0.0; //TODO: made this a var again like in their example
     public var masterGain : Float = 1.0;
     var m1Encode : Mach1Encode = Mach1Encode()
     var volume : Float = 1.0
@@ -74,7 +74,6 @@ public class Encoder {
                         
                         let delay: Float = 0.1
                         guard (playerSampleTime != nil) else {
-                            print("adding buffer... 1")
                             self.players[i].scheduleBuffer(convertedBuffer,
 //                                                           at: startTime,
                                                            completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
@@ -83,8 +82,6 @@ public class Encoder {
                             self.converter!.reset()
                             continue;
                         }
-
-                        print("adding buffer... 2")
                         self.players[i].scheduleBuffer(convertedBuffer,
 //                                                       at: startTime,
                                                        completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
@@ -171,12 +168,13 @@ public class Encoder {
      * @param decodeType
      */
     func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType) {
-        m1Encode.setAzimuthDegrees(azimuthDegrees: 90.0);
+        m1Encode.setAzimuthDegrees(azimuthDegrees: self.currentAzimiuthDegrees);
         m1Encode.setDiverge(diverge: 1.0);
         m1Encode.setElevation(elevationFromMinus1to1: 0);
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
         m1Encode.setInputMode(inputMode: type)
+        m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Horizon)
         m1Encode.generatePointResults()
         
         //Use each coeff to decode multichannel Mach1 Spatial mix
