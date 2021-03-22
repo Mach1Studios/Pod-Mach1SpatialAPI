@@ -20,12 +20,15 @@ class ViewController: UIViewController {
     var cameraRoll : Float = 0.0
     var currentDeg : Float = 0.0
     
+    var currentDegree = 0
+    var counter = 0
+    var panTimer: Timer?
+    
     @IBAction func PlayButtonPressed(_ sender: Any) {        
         encoder.activateAudioSession()
         encoder.playSpatialAudioCue(audioCue: "Take a right turn on Vestry Street")
         
-        // Reset the TTS source orientation to forward panning
-        currentDeg = 0.0
+        incrementPanning(amount: 90) // 90 points of interpolation for panning
     }
     
     @objc func update() {
@@ -35,10 +38,21 @@ class ViewController: UIViewController {
         
         encoder.update(decodeArray: decodeArray, decodeType: Mach1DecodeAlgoHorizon)
     }
-    
-    @objc func updatePanning(){
-        for currentDeg in stride(from: currentDeg, to: 90.0, by: 0.1){
-            encoder.setCurrentAzimuthDegrees(degrees: Float(currentDeg))
+
+    // This is a temp function to increment the azimuth panning of the Mach1Encode object over time
+    func incrementPanning(amount: Int) {
+        counter = amount
+        panTimer = Timer.scheduledTimer(timeInterval: 0.03, target: self, selector: #selector(self.updateDelay), userInfo: nil, repeats: true)
+    }
+
+    @objc func updateDelay() {
+        if (counter > 0) {
+            counter -= 1 // counts down as a timer
+            currentDegree += 1 // increments up the next azimuth degree to use
+            encoder.setCurrentAzimuthDegrees(degrees: Float(currentDegree)) // applies that new degree value
+        } else {
+            panTimer?.invalidate()
+            panTimer = nil
         }
     }
     
