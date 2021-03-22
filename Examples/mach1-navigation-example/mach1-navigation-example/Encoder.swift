@@ -8,7 +8,7 @@ import AVFoundation
 import UIKit
 
 public class Encoder {
-    public var currentAzimiuthDegrees : Float = 0.0; //TODO: made this a var again like in their example
+    public var currentAzimiuthDegrees : Float = 0.0;
     public var masterGain : Float = 1.0;
     var m1Encode : Mach1Encode = Mach1Encode()
     var volume : Float = 1.0
@@ -17,7 +17,6 @@ public class Encoder {
     // MARK: AVAudio properties
     var engines: [AVAudioEngine] = [AVAudioEngine(), AVAudioEngine()]
     var players: [AVAudioPlayerNode] = [AVAudioPlayerNode(), AVAudioPlayerNode()]
-    var eqEffects: [AVAudioUnitEffect] = [AVAudioUnitEffect(), AVAudioUnitEffect()]
     var bufferCounters : [Int] = [0,0]
     let sampleRate: Float = 22050
     var converter = AVAudioConverter(from: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 1, interleaved: false)!, to: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!)
@@ -26,9 +25,9 @@ public class Encoder {
     let audioSession = AVAudioSession.sharedInstance()
     let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
     
-    public func setCurrentAzimuthDegrees(degress: Float) {
-        print("Set new azimuth's value to \(degress)")
-        self.currentAzimiuthDegrees = degress;
+    public func setCurrentAzimuthDegrees(degrees: Float) {
+        print("Set new azimuth's value to \(degrees)")
+        self.currentAzimiuthDegrees = degrees;
     }
     
     init(){
@@ -67,17 +66,14 @@ public class Encoder {
                 let convertedBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: pcmBuffer.format.sampleRate, channels: pcmBuffer.format.channelCount, interleaved: false)!, frameCapacity: pcmBuffer.frameCapacity)!
                 do {
                     try self.converter!.convert(to: convertedBuffer, from: pcmBuffer)
-                    print(self.players.count)
                     // Schedule buffers
                     for i in 0...self.players.count-1{
                         let playerSampleTime: AVAudioFramePosition? = self.players[0].lastRenderTime?.sampleTime
                         
-                        let delay: Float = 0.1
                         guard (playerSampleTime != nil) else {
                             self.players[i].scheduleBuffer(convertedBuffer,
 //                                                           at: startTime,
                                                            completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
-                                print("Converted buffer added")
                             })
                             self.converter!.reset()
                             continue;
@@ -85,7 +81,6 @@ public class Encoder {
                         self.players[i].scheduleBuffer(convertedBuffer,
 //                                                       at: startTime,
                                                        completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
-                            print("Converted buffer added")
                         })
                     }
                     self.converter!.reset()
@@ -106,7 +101,6 @@ public class Encoder {
         for i in 0...self.engines.count-1{
             try! self.engines[i].start()
         }
-        
         print("Playing...")
         play()
     }
@@ -135,7 +129,7 @@ public class Encoder {
     }
     
     func setupAudio() {
-        /// NOTE
+        /// Note:
         /// Connecting an [AudioUnit] to the engine somehow starts the shared audioSession, and if that audiosession is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
         try? self.audioSession.setCategory(.playback, options: .mixWithOthers)
         
@@ -144,9 +138,7 @@ public class Encoder {
             engines[i].connect(players[i], to: engines[i].mainMixerNode, format: outputFormat)
             engines[i].prepare()
         }
-        
         try? self.audioSession.setActive(false)
-        
         print("Session created")
     }
     
@@ -174,7 +166,7 @@ public class Encoder {
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
         m1Encode.setInputMode(inputMode: type)
-        m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Spatial)
+        m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Horizon) /// Note: Using Mach1Horizon for Yaw only processing
         m1Encode.generatePointResults()
         
         //Use each coeff to decode multichannel Mach1 Spatial mix

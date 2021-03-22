@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1576B4AC2605854E003D6A37 /* RollMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576B4A92605854E003D6A37 /* RollMeter.swift */; };
 		1576B4AD2605854E003D6A37 /* YawMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576B4AA2605854E003D6A37 /* YawMeter.swift */; };
-		1576B4AE2605854E003D6A37 /* PitchMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576B4AB2605854E003D6A37 /* PitchMeter.swift */; };
 		1576B4B1260587B8003D6A37 /* CMDeviceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576B4B0260587B8003D6A37 /* CMDeviceMotion.swift */; };
 		15F9504B26040C6200B1F600 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9504A26040C6200B1F600 /* AppDelegate.swift */; };
 		15F9504D26040C6200B1F600 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9504C26040C6200B1F600 /* SceneDelegate.swift */; };
@@ -22,9 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1576B4A92605854E003D6A37 /* RollMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RollMeter.swift; sourceTree = "<group>"; };
 		1576B4AA2605854E003D6A37 /* YawMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YawMeter.swift; sourceTree = "<group>"; };
-		1576B4AB2605854E003D6A37 /* PitchMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchMeter.swift; sourceTree = "<group>"; };
 		1576B4B0260587B8003D6A37 /* CMDeviceMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMDeviceMotion.swift; sourceTree = "<group>"; };
 		15F9504726040C6200B1F600 /* mach1-navigation-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-navigation-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F9504A26040C6200B1F600 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,8 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				1576B4B0260587B8003D6A37 /* CMDeviceMotion.swift */,
-				1576B4AB2605854E003D6A37 /* PitchMeter.swift */,
-				1576B4A92605854E003D6A37 /* RollMeter.swift */,
 				1576B4AA2605854E003D6A37 /* YawMeter.swift */,
 				15F9504A26040C6200B1F600 /* AppDelegate.swift */,
 				15F9504C26040C6200B1F600 /* SceneDelegate.swift */,
@@ -221,10 +215,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				15F9506026040E4500B1F600 /* Encoder.swift in Sources */,
-				1576B4AC2605854E003D6A37 /* RollMeter.swift in Sources */,
 				15F9504F26040C6200B1F600 /* ViewController.swift in Sources */,
 				1576B4AD2605854E003D6A37 /* YawMeter.swift in Sources */,
-				1576B4AE2605854E003D6A37 /* PitchMeter.swift in Sources */,
 				1576B4B1260587B8003D6A37 /* CMDeviceMotion.swift in Sources */,
 				15F9504B26040C6200B1F600 /* AppDelegate.swift in Sources */,
 				15F9504D26040C6200B1F600 /* SceneDelegate.swift in Sources */,
@@ -383,7 +375,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yo.comeon.TTS-avplayer-test";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.navigation-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -404,7 +396,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yo.comeon.TTS-avplayer-test";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.navigation-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

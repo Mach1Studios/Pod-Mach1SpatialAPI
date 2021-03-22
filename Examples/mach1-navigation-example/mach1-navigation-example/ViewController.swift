@@ -12,30 +12,34 @@ class ViewController: UIViewController {
     var encoder: Encoder! = Encoder()
     var motionManager = CMMotionManager()
     @IBOutlet weak var yawMeter: YawMeter!
-    @IBOutlet weak var rollMeter: RollMeter!
-    @IBOutlet weak var pitchMeter: PitchMeter!
-    
-    @IBAction func PlayButtonPressed(_ sender: Any) {
-        print("Play pressed")
-        
-        encoder.activateAudioSession()
-        encoder.playSpatialAudioCue(audioCue: "Take a right turn on Vestry Street")
-    }
     
     var m1Decode : Mach1Decode!
     var encoderCurrent: Encoder?
     var cameraYaw : Float = 0.0
     var cameraPitch : Float = 0.0
     var cameraRoll : Float = 0.0
+    var currentDeg : Float = 0.0
+    
+    @IBAction func PlayButtonPressed(_ sender: Any) {        
+        encoder.activateAudioSession()
+        encoder.playSpatialAudioCue(audioCue: "Take a right turn on Vestry Street")
+        
+        // Reset the TTS source orientation to forward panning
+        currentDeg = 0.0
+    }
     
     @objc func update() {
         m1Decode.beginBuffer()
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
         
-        encoder.update(decodeArray: decodeArray, decodeType: Mach1DecodeAlgoSpatial)
-        
-//        soundMap?.update(decodeArray: decodeArray, decodeType: Mach1DecodeAlgoSpatial, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
+        encoder.update(decodeArray: decodeArray, decodeType: Mach1DecodeAlgoHorizon)
+    }
+    
+    @objc func updatePanning(){
+        for currentDeg in stride(from: currentDeg, to: 90.0, by: 0.1){
+            encoder.setCurrentAzimuthDegrees(degrees: Float(currentDeg))
+        }
     }
     
     func getEuler(q1 : SCNVector4) -> float3
@@ -83,10 +87,10 @@ class ViewController: UIViewController {
         //Setup the correct angle convention for orientation Euler input angles
         m1Decode.setPlatformType(type: Mach1PlatformiOS)
         //Setup the expected spatial audio mix format for decoding
-        m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
+        m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoHorizon) /// Note: Using Mach1Horizon for Yaw only processing
         //Setup for the safety filter speed:
         //1.0 = no filter | 0.1 = slow filter
-        m1Decode.setFilterSpeed(filterSpeed: 1.0)
+        m1Decode.setFilterSpeed(filterSpeed: 0.95)
        
         // timer for draw update
         Timer.scheduledTimer(timeInterval: 1.0 / 60.0, target: self, selector: (#selector(ViewController.update)), userInfo: nil, repeats: true)
@@ -98,7 +102,7 @@ class ViewController: UIViewController {
                 
                 // Get the attitudes of the device
                 let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
-                var angles = self!.getEuler(q1: quat!)
+                let angles = self!.getEuler(q1: quat!)
                 
                 self?.cameraYaw = angles.x
                 self?.cameraPitch = angles.y
@@ -106,12 +110,8 @@ class ViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.yawMeter?.update(meter: -angles.y / 180)
-                    self?.rollMeter?.update(meter: -angles.z / 90)
-                    self?.pitchMeter?.update(meter: -angles.x / 90)
                     /*
-                    self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +
-                        "Pitch: " + String(format: "%.3f", angles.y) + "°" + "\r\n" +
-                        "Roll: " + String(format: "%.3f", angles.z) + "°"
+                    self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n"
                     */
                 }
 

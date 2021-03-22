@@ -26,49 +26,32 @@
                                     <action selector="PlayButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xLY-62-QUQ"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aav-Bt-vbf" customClass="RollMeter" customModule="mach1_example" customModuleProvider="target">
-                                <rect key="frame" x="152" y="128" width="110" height="179"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mgu-mg-2DA" customClass="YawMeter" customModule="mach1_navigation_example" customModuleProvider="target">
+                                <rect key="frame" x="152" y="125" width="111.5" height="179"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mgu-mg-2DA" customClass="YawMeter" customModule="mach1_example" customModuleProvider="target">
-                                <rect key="frame" x="46" y="128" width="111.5" height="179"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TTS -&gt; Mach1Encode Example" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFc-R9-NWL">
-                                <rect key="frame" x="88" y="90" width="233" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TTS -&gt; Mach1Encode Example" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFc-R9-NWL">
+                                <rect key="frame" x="91" y="88" width="233" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NbH-QZ-9cP" userLabel="Pitch Meter" customClass="PitchMeter" customModule="mach1_example" customModuleProvider="target">
-                                <rect key="frame" x="270" y="128" width="111.5" height="179"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1ja-IL-Y3W" firstAttribute="top" secondItem="aav-Bt-vbf" secondAttribute="bottom" constant="5" id="1mh-HR-jaF"/>
-                            <constraint firstItem="Mgu-mg-2DA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="84" id="5FN-TU-oa3"/>
-                            <constraint firstItem="NbH-QZ-9cP" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.2" id="6fL-pe-X9q"/>
-                            <constraint firstItem="NbH-QZ-9cP" firstAttribute="bottom" secondItem="aav-Bt-vbf" secondAttribute="bottom" id="8dr-eZ-J5j"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NbH-QZ-9cP" secondAttribute="trailing" constant="32.5" id="I8P-GL-TaF"/>
-                            <constraint firstItem="aav-Bt-vbf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="84" id="La4-J1-U2P"/>
-                            <constraint firstItem="nFc-R9-NWL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="46" id="NYK-uC-yfQ"/>
+                            <constraint firstItem="Mgu-mg-2DA" firstAttribute="top" secondItem="nFc-R9-NWL" secondAttribute="bottom" constant="16.5" id="1O6-sE-YDA"/>
+                            <constraint firstAttribute="bottom" secondItem="Mgu-mg-2DA" secondAttribute="bottom" constant="592" id="9vc-2j-F54"/>
                             <constraint firstItem="1ja-IL-Y3W" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Rth-bh-lkf"/>
-                            <constraint firstItem="nFc-R9-NWL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="88" id="SSH-Tq-krr"/>
-                            <constraint firstItem="NbH-QZ-9cP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="270" id="ZKd-F8-ntL"/>
-                            <constraint firstItem="NbH-QZ-9cP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="84" id="Zoc-wd-cYa"/>
-                            <constraint firstItem="NbH-QZ-9cP" firstAttribute="leading" secondItem="aav-Bt-vbf" secondAttribute="trailing" constant="8" symbolic="YES" id="ah2-Pp-GL5"/>
-                            <constraint firstItem="aav-Bt-vbf" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bIJ-lK-UTw"/>
-                            <constraint firstItem="Mgu-mg-2DA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="46" id="imO-cd-thi"/>
-                            <constraint firstItem="NbH-QZ-9cP" firstAttribute="bottom" secondItem="Mgu-mg-2DA" secondAttribute="bottom" id="rJS-dU-MjC"/>
-                            <constraint firstAttribute="trailing" secondItem="Mgu-mg-2DA" secondAttribute="trailing" constant="256.5" id="wvg-0U-XVI"/>
+                            <constraint firstItem="Mgu-mg-2DA" firstAttribute="centerX" secondItem="1ja-IL-Y3W" secondAttribute="centerX" id="UGc-bl-VDz"/>
+                            <constraint firstItem="nFc-R9-NWL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="44" id="WJ3-Nm-kgE"/>
+                            <constraint firstItem="nFc-R9-NWL" firstAttribute="centerX" secondItem="Mgu-mg-2DA" secondAttribute="centerX" id="ckQ-IJ-2vi"/>
+                            <constraint firstItem="nFc-R9-NWL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="91" id="jTy-vr-9fs"/>
+                            <constraint firstItem="Mgu-mg-2DA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="152" id="vYR-jZ-ZDx"/>
+                            <constraint firstItem="1ja-IL-Y3W" firstAttribute="top" secondItem="Mgu-mg-2DA" secondAttribute="bottom" constant="8" symbolic="YES" id="va3-JI-jhj"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="pitchMeter" destination="NbH-QZ-9cP" id="jIJ-DE-f8S"/>
-                        <outlet property="rollMeter" destination="aav-Bt-vbf" id="fTa-6a-Ryc"/>
                         <outlet property="yawMeter" destination="Mgu-mg-2DA" id="MmD-aK-BDT"/>
                     </connections>
                 </viewController>

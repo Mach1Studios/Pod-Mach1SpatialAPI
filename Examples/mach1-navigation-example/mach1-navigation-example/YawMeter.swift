@@ -3,7 +3,7 @@
 //  mach1-ios-encodeDecode-example
 //
 //  Created by User on 16/04/2019.
-//  Copyright © 2019 User. All rights reserved.
+//  Copyright ©2019 Mach1. All rights reserved.
 //
 
 import Foundation
