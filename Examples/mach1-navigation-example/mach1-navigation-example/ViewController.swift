@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         encoder.activateAudioSession()
         encoder.playSpatialAudioCue(audioCue: "Take a right turn on Vestry Street")
         
+        currentDegree = 0 // reset the orientation to forward
         incrementPanning(amount: 90) // 90 points of interpolation for panning
     }
     
@@ -118,9 +119,7 @@ class ViewController: UIViewController {
                 let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
                 let angles = self!.getEuler(q1: quat!)
                 
-                self?.cameraYaw = angles.x
-                self?.cameraPitch = angles.y
-                self?.cameraRoll = angles.z
+                self?.cameraYaw = -angles.y / 180
                 
                 DispatchQueue.main.async {
                     self?.yawMeter?.update(meter: -angles.y / 180)
