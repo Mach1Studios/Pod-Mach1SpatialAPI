@@ -22,14 +22,12 @@ public class Encoder {
     var converter = AVAudioConverter(from: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 2, interleaved: true)!,
                                      to: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!)
     var synthesizer = AVSpeechSynthesizer()
-    
     let audioSession = AVAudioSession.sharedInstance()
     let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!
-    
     var lastGains = [0.0, 0.0]
     
     public func setCurrentAzimuthDegrees(degrees: Float) {
-//        print("Set new azimuth's value to \(degrees)")
+        //print("Set new azimuth's value to \(degrees)")
         self.currentAzimiuthDegrees = degrees;
     }
     
@@ -46,13 +44,10 @@ public class Encoder {
         //    resetIfPlaying()
         //}
         
-        // Reset players
-        players = [AVAudioPlayerNode() /*, AVAudioPlayerNode() */]
-        // Set up left/right channel
-        
-//        self.players[0].pan = -1.0
-//        self.players[1].pan = 1.0
-        
+        /// In this implementation we are using `getResultingCoeffsDecoded()` to directly create panning objects via Mach1Encode from the buffers provided
+        /// by the TTS synthesizer, we then pass the buffers to a stereo output `AVAudioPlayerNode()` instead of two mono players like in our other examples
+        /// to ensure player to player sync easily.
+        players = [AVAudioPlayerNode()]
         setupAudio()
         
         // Set voice message
@@ -70,11 +65,8 @@ public class Encoder {
                 
                 let intermediateBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 2, interleaved: true)!, frameCapacity: pcmBuffer.frameCapacity)
                 for i in 0...pcmBuffer.frameLength {
-                    print (self.lastGains[0], self.lastGains[1])
                     intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.lastGains[0])
                     intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2 + 1] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.lastGains[1])
-                    
-//                    print(i, " , ", Int(pcmBuffer.int16ChannelData!.pointee[Int(i)]))
                 }
                 intermediateBuffer!.frameLength = pcmBuffer.frameLength
                 
@@ -145,10 +137,6 @@ public class Encoder {
             engines[i].attach(players[i])
             print("main mixer node channel count:", engines[i].mainMixerNode.inputFormat(forBus: 0).channelCount)
             let format1 = engines[i].mainMixerNode.inputFormat(forBus: 0)
-            print (format1.isInterleaved)
-            print (format1.channelCount)
-            print (format1.sampleRate)
-//            let format2 = players[i].form
             engines[i].connect(players[i], to: engines[i].mainMixerNode, format: outputFormat)
             engines[i].prepare()
         }
@@ -185,13 +173,8 @@ public class Encoder {
         
         //Use each coeff to decode multichannel Mach1 Spatial mix
         let gains : [Float] = m1Encode.getResultingCoeffsDecoded(decodeType: decodeType, decodeResult: decodeArray)
-        
         lastGains[0] = Double(gains[0])
         lastGains[1] = Double(gains[1])
-//        for i in 0..<players.count {
-//            players[i].volume = gains[i] * volume
-//        }
-        
     }
     
 }
