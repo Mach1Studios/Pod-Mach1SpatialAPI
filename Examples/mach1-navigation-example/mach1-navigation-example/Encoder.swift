@@ -15,18 +15,21 @@ public class Encoder {
     var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono;
     
     // MARK: AVAudio properties
-    var engines: [AVAudioEngine] = [AVAudioEngine(), AVAudioEngine()]
-    var players: [AVAudioPlayerNode] = [AVAudioPlayerNode(), AVAudioPlayerNode()]
+    var engines: [AVAudioEngine] = [AVAudioEngine() /*, AVAudioEngine() */]
+    var players: [AVAudioPlayerNode] = [AVAudioPlayerNode() /* , AVAudioPlayerNode() */]
     var bufferCounters : [Int] = [0,0]
     let sampleRate: Float = 22050
-    var converter = AVAudioConverter(from: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 1, interleaved: false)!, to: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!)
+    var converter = AVAudioConverter(from: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 2, interleaved: true)!,
+                                     to: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!)
     var synthesizer = AVSpeechSynthesizer()
     
     let audioSession = AVAudioSession.sharedInstance()
-    let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+    let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!
+    
+    var lastGains = [0.0, 0.0]
     
     public func setCurrentAzimuthDegrees(degrees: Float) {
-        print("Set new azimuth's value to \(degrees)")
+//        print("Set new azimuth's value to \(degrees)")
         self.currentAzimiuthDegrees = degrees;
     }
     
@@ -44,15 +47,18 @@ public class Encoder {
         //}
         
         // Reset players
-        players = [AVAudioPlayerNode(), AVAudioPlayerNode()]
+        players = [AVAudioPlayerNode() /*, AVAudioPlayerNode() */]
         // Set up left/right channel
-        self.players[0].pan = -1.0
-        self.players[1].pan = 1.0
+        
+//        self.players[0].pan = -1.0
+//        self.players[1].pan = 1.0
         
         setupAudio()
         
         // Set voice message
         let utterance = AVSpeechUtterance(string: audioCue)
+        
+        var sampleCounter: Int! = 0
         
         if #available(iOS 13.0, *) {
             // Write the new voice message in the audio file
@@ -61,25 +67,26 @@ public class Encoder {
                     print("could not create buffer or buffer empty")
                     return
                 }
+                
+                let intermediateBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 2, interleaved: true)!, frameCapacity: pcmBuffer.frameCapacity)
+                for i in 0...pcmBuffer.frameLength {
+                    print (self.lastGains[0], self.lastGains[1])
+                    intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.lastGains[0])
+                    intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2 + 1] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.lastGains[1])
+                    
+//                    print(i, " , ", Int(pcmBuffer.int16ChannelData!.pointee[Int(i)]))
+                }
+                intermediateBuffer!.frameLength = pcmBuffer.frameLength
+                
                 /// NOTE
                 /// Need to convert the buffer to different format because AVAudioEngine does not support the format returned from AVSpeechSynthesizer
-                let convertedBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: pcmBuffer.format.sampleRate, channels: pcmBuffer.format.channelCount, interleaved: false)!, frameCapacity: pcmBuffer.frameCapacity)!
+                let convertedBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!, frameCapacity: 4410)!
                 do {
-                    try self.converter!.convert(to: convertedBuffer, from: pcmBuffer)
+                    try self.converter!.convert(to: convertedBuffer, from: intermediateBuffer!)
                     // Schedule buffers
+                    sampleCounter += Int(convertedBuffer.frameLength)
                     for i in 0...self.players.count-1{
-                        let playerSampleTime: AVAudioFramePosition? = self.players[0].lastRenderTime?.sampleTime
-                        
-                        guard (playerSampleTime != nil) else {
-                            self.players[i].scheduleBuffer(convertedBuffer,
-//                                                           at: startTime,
-                                                           completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
-                            })
-                            self.converter!.reset()
-                            continue;
-                        }
                         self.players[i].scheduleBuffer(convertedBuffer,
-//                                                       at: startTime,
                                                        completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
                         })
                     }
@@ -113,6 +120,7 @@ public class Encoder {
             let playerSampleTime: AVAudioFramePosition? = players[0].lastRenderTime?.sampleTime
             let delay: Float = 0.1
             let startTime: AVAudioTime = AVAudioTime(sampleTime: playerSampleTime! + Int64((delay * sampleRate)), atRate: Double(sampleRate))
+            print ("player ", i, " sample time = ", startTime.sampleTime)
             self.players[i].play(at: startTime)
         }
     }
@@ -135,6 +143,12 @@ public class Encoder {
         
         for i in 0...engines.count-1{
             engines[i].attach(players[i])
+            print("main mixer node channel count:", engines[i].mainMixerNode.inputFormat(forBus: 0).channelCount)
+            let format1 = engines[i].mainMixerNode.inputFormat(forBus: 0)
+            print (format1.isInterleaved)
+            print (format1.channelCount)
+            print (format1.sampleRate)
+//            let format2 = players[i].form
             engines[i].connect(players[i], to: engines[i].mainMixerNode, format: outputFormat)
             engines[i].prepare()
         }
@@ -172,9 +186,11 @@ public class Encoder {
         //Use each coeff to decode multichannel Mach1 Spatial mix
         let gains : [Float] = m1Encode.getResultingCoeffsDecoded(decodeType: decodeType, decodeResult: decodeArray)
         
-        for i in 0..<players.count {
-            players[i].volume = gains[i] * volume
-        }
+        lastGains[0] = Double(gains[0])
+        lastGains[1] = Double(gains[1])
+//        for i in 0..<players.count {
+//            players[i].volume = gains[i] * volume
+//        }
         
     }
     
