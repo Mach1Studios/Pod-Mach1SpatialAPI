@@ -25,6 +25,7 @@ public class Encoder {
     let audioSession = AVAudioSession.sharedInstance()
     let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!
     var lastGains = [0.0, 0.0]
+    var filteredGains = [0.0, 0.0]
     
     public func setCurrentAzimuthDegrees(degrees: Float) {
         //print("Set new azimuth's value to \(degrees)")
@@ -65,8 +66,12 @@ public class Encoder {
                 
                 let intermediateBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 2, interleaved: true)!, frameCapacity: pcmBuffer.frameCapacity)
                 for i in 0...pcmBuffer.frameLength {
-                    intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.lastGains[0])
-                    intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2 + 1] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.lastGains[1])
+                    self.filteredGains[0] = self.filteredGains[0] * 0.99 + self.lastGains[0] * 0.01
+                    self.filteredGains[1] = self.filteredGains[1] * 0.99 + self.lastGains[1] * 0.01
+                    
+                    
+                    intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.filteredGains[0])
+                    intermediateBuffer!.int16ChannelData!.pointee[Int(i) * 2 + 1] = Int16(Double(pcmBuffer.int16ChannelData!.pointee[Int(i)]) * self.filteredGains[1])
                 }
                 intermediateBuffer!.frameLength = pcmBuffer.frameLength
                 
