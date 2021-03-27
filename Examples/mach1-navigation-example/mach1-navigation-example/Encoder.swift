@@ -40,14 +40,13 @@ public class Encoder {
      * @param pathToFile Path to generated audio file
      */
     public func playSpatialAudioCue(audioCue: String) {
-        stop()
-        //if players[0].isPlaying {
-        //    resetIfPlaying()
-        //}
+        stop() // Nicely reset audio to block overlapping play calls
         
         /// In this implementation we are using `getResultingCoeffsDecoded()` to directly create panning objects via Mach1Encode from the buffers provided
         /// by the TTS synthesizer, we then pass the buffers to a stereo output `AVAudioPlayerNode()` instead of two mono players like in our other examples
         /// to ensure player to player sync easily.
+        /// A more recommended implementation would be creating a mixer class to receive multiple 4/8 channel Mach1Encode outputs and sum them to a single Mach1Decode
+        /// to fully leverage use of Mach1 Spatial (building render outputs or utilizing other input formats)
         players = [AVAudioPlayerNode()]
         setupAudio()
         
@@ -75,8 +74,7 @@ public class Encoder {
                 }
                 intermediateBuffer!.frameLength = pcmBuffer.frameLength
                 
-                /// NOTE
-                /// Need to convert the buffer to different format because AVAudioEngine does not support the format returned from AVSpeechSynthesizer
+                /// Note: Need to convert the buffer to different format because AVAudioEngine does not support the format returned from AVSpeechSynthesizer
                 let convertedBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 2, interleaved: false)!, frameCapacity: 4410)!
                 do {
                     try self.converter!.convert(to: convertedBuffer, from: intermediateBuffer!)
@@ -134,8 +132,9 @@ public class Encoder {
     }
     
     func setupAudio() {
-        /// Note:
-        /// Connecting an [AudioUnit] to the engine somehow starts the shared audioSession, and if that audiosession is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
+        /// Note: Connecting an [AudioUnit] to the engine somehow starts the shared audioSession, and if that audiosession
+        /// is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music
+        /// that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
         try? self.audioSession.setCategory(.playback, options: .mixWithOthers)
         
         for i in 0...engines.count-1{
