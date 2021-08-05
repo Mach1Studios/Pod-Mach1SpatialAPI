@@ -87,7 +87,6 @@ class ViewController: UIViewController {
                 
                 players[i * 2].prepareToPlay()
                 players[i * 2 + 1].prepareToPlay()
-                
             }
             
             //Mach1 Decode Setup

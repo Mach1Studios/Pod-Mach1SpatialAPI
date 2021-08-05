@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A45C5682262640320008FF4D /* guitar-51Film-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C567C262640320008FF4D /* guitar-51Film-2.wav */; };
+		A45C5683262640320008FF4D /* guitar-51Film-6.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C567D262640320008FF4D /* guitar-51Film-6.wav */; };
+		A45C5684262640320008FF4D /* guitar-51Film-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C567E262640320008FF4D /* guitar-51Film-1.wav */; };
+		A45C5685262640320008FF4D /* guitar-51Film-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C567F262640320008FF4D /* guitar-51Film-3.wav */; };
+		A45C5686262640320008FF4D /* guitar-51Film-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C5680262640320008FF4D /* guitar-51Film-4.wav */; };
+		A45C5687262640320008FF4D /* guitar-51Film-5.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C5681262640320008FF4D /* guitar-51Film-5.wav */; };
+		A45C568C2626403D0008FF4D /* guitar-acnsn3d-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C56882626403D0008FF4D /* guitar-acnsn3d-3.wav */; };
+		A45C568D2626403D0008FF4D /* guitar-acnsn3d-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C56892626403D0008FF4D /* guitar-acnsn3d-2.wav */; };
+		A45C568E2626403D0008FF4D /* guitar-acnsn3d-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C568A2626403D0008FF4D /* guitar-acnsn3d-4.wav */; };
+		A45C568F2626403D0008FF4D /* guitar-acnsn3d-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = A45C568B2626403D0008FF4D /* guitar-acnsn3d-1.wav */; };
 		A46BE17D21E55EBC0050CFEB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A46BE17C21E55EBB0050CFEB /* libc++.tbd */; };
 		A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F80A23203B3B86008D976A /* AppDelegate.swift */; };
 		A4F80A26203B3B86008D976A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F80A25203B3B86008D976A /* ViewController.swift */; };
@@ -14,16 +24,6 @@
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
 		BE11FF423B9FE0FCC2D60DD3 /* Pods_mach1_transcode_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E828E5F1A84EBF0ECFAF89 /* Pods_mach1_transcode_example.framework */; };
-		CE443E75249D019D000B2C0F /* guitar-acnsn3d-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E6A249D019D000B2C0F /* guitar-acnsn3d-1.wav */; };
-		CE443E76249D019D000B2C0F /* guitar-acnsn3d-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E6B249D019D000B2C0F /* guitar-acnsn3d-2.wav */; };
-		CE443E77249D019D000B2C0F /* guitar-acnsn3d-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E6C249D019D000B2C0F /* guitar-acnsn3d-3.wav */; };
-		CE443E78249D019D000B2C0F /* guitar-acnsn3d-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E6D249D019D000B2C0F /* guitar-acnsn3d-4.wav */; };
-		CE443E79249D019D000B2C0F /* guitar-51Film-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E6F249D019D000B2C0F /* guitar-51Film-1.wav */; };
-		CE443E7A249D019D000B2C0F /* guitar-51Film-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E70249D019D000B2C0F /* guitar-51Film-2.wav */; };
-		CE443E7B249D019D000B2C0F /* guitar-51Film-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E71249D019D000B2C0F /* guitar-51Film-3.wav */; };
-		CE443E7C249D019D000B2C0F /* guitar-51Film-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E72249D019D000B2C0F /* guitar-51Film-4.wav */; };
-		CE443E7D249D019D000B2C0F /* guitar-51Film-5.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E73249D019D000B2C0F /* guitar-51Film-5.wav */; };
-		CE443E7E249D019D000B2C0F /* guitar-51Film-6.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE443E74249D019D000B2C0F /* guitar-51Film-6.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +42,16 @@
 /* Begin PBXFileReference section */
 		7AA88BBF728B50563F1399D7 /* Pods_mach1_decode_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mach1_decode_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E828E5F1A84EBF0ECFAF89 /* Pods_mach1_transcode_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mach1_transcode_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A45C567C262640320008FF4D /* guitar-51Film-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-51Film-2.wav"; path = "Audio/FiveOneFilm_Cinema/guitar-51Film-2.wav"; sourceTree = SOURCE_ROOT; };
+		A45C567D262640320008FF4D /* guitar-51Film-6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-51Film-6.wav"; path = "Audio/FiveOneFilm_Cinema/guitar-51Film-6.wav"; sourceTree = SOURCE_ROOT; };
+		A45C567E262640320008FF4D /* guitar-51Film-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-51Film-1.wav"; path = "Audio/FiveOneFilm_Cinema/guitar-51Film-1.wav"; sourceTree = SOURCE_ROOT; };
+		A45C567F262640320008FF4D /* guitar-51Film-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-51Film-3.wav"; path = "Audio/FiveOneFilm_Cinema/guitar-51Film-3.wav"; sourceTree = SOURCE_ROOT; };
+		A45C5680262640320008FF4D /* guitar-51Film-4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-51Film-4.wav"; path = "Audio/FiveOneFilm_Cinema/guitar-51Film-4.wav"; sourceTree = SOURCE_ROOT; };
+		A45C5681262640320008FF4D /* guitar-51Film-5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-51Film-5.wav"; path = "Audio/FiveOneFilm_Cinema/guitar-51Film-5.wav"; sourceTree = SOURCE_ROOT; };
+		A45C56882626403D0008FF4D /* guitar-acnsn3d-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-acnsn3d-3.wav"; path = "Audio/ACNSN3D/guitar-acnsn3d-3.wav"; sourceTree = SOURCE_ROOT; };
+		A45C56892626403D0008FF4D /* guitar-acnsn3d-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-acnsn3d-2.wav"; path = "Audio/ACNSN3D/guitar-acnsn3d-2.wav"; sourceTree = SOURCE_ROOT; };
+		A45C568A2626403D0008FF4D /* guitar-acnsn3d-4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-acnsn3d-4.wav"; path = "Audio/ACNSN3D/guitar-acnsn3d-4.wav"; sourceTree = SOURCE_ROOT; };
+		A45C568B2626403D0008FF4D /* guitar-acnsn3d-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "guitar-acnsn3d-1.wav"; path = "Audio/ACNSN3D/guitar-acnsn3d-1.wav"; sourceTree = SOURCE_ROOT; };
 		A46BE17C21E55EBB0050CFEB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		A4F80A20203B3B86008D976A /* mach1-transcode-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-transcode-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4F80A23203B3B86008D976A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,16 +61,6 @@
 		A4F80A2D203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A4F80A2F203B3B86008D976A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C92116E6F4434900CC8F5A0E /* Pods-mach1-transcode-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mach1-transcode-example.debug.xcconfig"; path = "Target Support Files/Pods-mach1-transcode-example/Pods-mach1-transcode-example.debug.xcconfig"; sourceTree = "<group>"; };
-		CE443E6A249D019D000B2C0F /* guitar-acnsn3d-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-acnsn3d-1.wav"; sourceTree = "<group>"; };
-		CE443E6B249D019D000B2C0F /* guitar-acnsn3d-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-acnsn3d-2.wav"; sourceTree = "<group>"; };
-		CE443E6C249D019D000B2C0F /* guitar-acnsn3d-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-acnsn3d-3.wav"; sourceTree = "<group>"; };
-		CE443E6D249D019D000B2C0F /* guitar-acnsn3d-4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-acnsn3d-4.wav"; sourceTree = "<group>"; };
-		CE443E6F249D019D000B2C0F /* guitar-51Film-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-51Film-1.wav"; sourceTree = "<group>"; };
-		CE443E70249D019D000B2C0F /* guitar-51Film-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-51Film-2.wav"; sourceTree = "<group>"; };
-		CE443E71249D019D000B2C0F /* guitar-51Film-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-51Film-3.wav"; sourceTree = "<group>"; };
-		CE443E72249D019D000B2C0F /* guitar-51Film-4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-51Film-4.wav"; sourceTree = "<group>"; };
-		CE443E73249D019D000B2C0F /* guitar-51Film-5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-51Film-5.wav"; sourceTree = "<group>"; };
-		CE443E74249D019D000B2C0F /* guitar-51Film-6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "guitar-51Film-6.wav"; sourceTree = "<group>"; };
 		D50A89D24F87BE156485DAC7 /* Pods-mach1-transcode-example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mach1-transcode-example.release.xcconfig"; path = "Target Support Files/Pods-mach1-transcode-example/Pods-mach1-transcode-example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,10 +140,10 @@
 		CE443E69249D019D000B2C0F /* ACNSN3D */ = {
 			isa = PBXGroup;
 			children = (
-				CE443E6A249D019D000B2C0F /* guitar-acnsn3d-1.wav */,
-				CE443E6B249D019D000B2C0F /* guitar-acnsn3d-2.wav */,
-				CE443E6C249D019D000B2C0F /* guitar-acnsn3d-3.wav */,
-				CE443E6D249D019D000B2C0F /* guitar-acnsn3d-4.wav */,
+				A45C568B2626403D0008FF4D /* guitar-acnsn3d-1.wav */,
+				A45C56892626403D0008FF4D /* guitar-acnsn3d-2.wav */,
+				A45C56882626403D0008FF4D /* guitar-acnsn3d-3.wav */,
+				A45C568A2626403D0008FF4D /* guitar-acnsn3d-4.wav */,
 			);
 			path = ACNSN3D;
 			sourceTree = "<group>";
@@ -151,12 +151,12 @@
 		CE443E6E249D019D000B2C0F /* FiveOneFilm_Cinema */ = {
 			isa = PBXGroup;
 			children = (
-				CE443E6F249D019D000B2C0F /* guitar-51Film-1.wav */,
-				CE443E70249D019D000B2C0F /* guitar-51Film-2.wav */,
-				CE443E71249D019D000B2C0F /* guitar-51Film-3.wav */,
-				CE443E72249D019D000B2C0F /* guitar-51Film-4.wav */,
-				CE443E73249D019D000B2C0F /* guitar-51Film-5.wav */,
-				CE443E74249D019D000B2C0F /* guitar-51Film-6.wav */,
+				A45C567E262640320008FF4D /* guitar-51Film-1.wav */,
+				A45C567C262640320008FF4D /* guitar-51Film-2.wav */,
+				A45C567F262640320008FF4D /* guitar-51Film-3.wav */,
+				A45C5680262640320008FF4D /* guitar-51Film-4.wav */,
+				A45C5681262640320008FF4D /* guitar-51Film-5.wav */,
+				A45C567D262640320008FF4D /* guitar-51Film-6.wav */,
 			);
 			path = FiveOneFilm_Cinema;
 			sourceTree = "<group>";
@@ -229,19 +229,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE443E79249D019D000B2C0F /* guitar-51Film-1.wav in Resources */,
-				CE443E78249D019D000B2C0F /* guitar-acnsn3d-4.wav in Resources */,
-				CE443E77249D019D000B2C0F /* guitar-acnsn3d-3.wav in Resources */,
-				CE443E76249D019D000B2C0F /* guitar-acnsn3d-2.wav in Resources */,
-				CE443E7D249D019D000B2C0F /* guitar-51Film-5.wav in Resources */,
-				CE443E7C249D019D000B2C0F /* guitar-51Film-4.wav in Resources */,
-				CE443E7A249D019D000B2C0F /* guitar-51Film-2.wav in Resources */,
+				A45C5685262640320008FF4D /* guitar-51Film-3.wav in Resources */,
+				A45C568C2626403D0008FF4D /* guitar-acnsn3d-3.wav in Resources */,
+				A45C568F2626403D0008FF4D /* guitar-acnsn3d-1.wav in Resources */,
+				A45C5686262640320008FF4D /* guitar-51Film-4.wav in Resources */,
+				A45C568E2626403D0008FF4D /* guitar-acnsn3d-4.wav in Resources */,
+				A45C568D2626403D0008FF4D /* guitar-acnsn3d-2.wav in Resources */,
+				A45C5684262640320008FF4D /* guitar-51Film-1.wav in Resources */,
+				A45C5683262640320008FF4D /* guitar-51Film-6.wav in Resources */,
 				A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */,
-				CE443E7E249D019D000B2C0F /* guitar-51Film-6.wav in Resources */,
-				CE443E7B249D019D000B2C0F /* guitar-51Film-3.wav in Resources */,
+				A45C5687262640320008FF4D /* guitar-51Film-5.wav in Resources */,
 				A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */,
-				CE443E75249D019D000B2C0F /* guitar-acnsn3d-1.wav in Resources */,
 				A4F80A29203B3B86008D976A /* Main.storyboard in Resources */,
+				A45C5682262640320008FF4D /* guitar-51Film-2.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
