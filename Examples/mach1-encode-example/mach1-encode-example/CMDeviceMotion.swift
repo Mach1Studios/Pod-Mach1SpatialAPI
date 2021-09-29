@@ -17,21 +17,21 @@ extension CMDeviceMotion {
             
         case .landscapeRight:
             
-            let cq = GLKQuaternionMakeWithAngleAndAxis(Float(M_PI_2), 0, 1, 0)
+            let cq = GLKQuaternionMakeWithAngleAndAxis(.pi/2, 0, 1, 0)
             let q = GLKQuaternionMultiply(cq, aq)
             
             final = SCNVector4(x: -q.y, y: q.x, z: q.z, w: q.w)
             
         case .landscapeLeft:
             
-            let cq = GLKQuaternionMakeWithAngleAndAxis(Float(-M_PI_2), 0, 1, 0)
+            let cq = GLKQuaternionMakeWithAngleAndAxis(-.pi/2, 0, 1, 0)
             let q = GLKQuaternionMultiply(cq, aq)
             
             final = SCNVector4(x: q.y, y: -q.x, z: q.z, w: q.w)
             
         case .portraitUpsideDown:
             
-            let cq = GLKQuaternionMakeWithAngleAndAxis(Float(M_PI_2), 1, 0, 0)
+            let cq = GLKQuaternionMakeWithAngleAndAxis(.pi/2, 1, 0, 0)
             let q = GLKQuaternionMultiply(cq, aq)
             
             final = SCNVector4(x: -q.x, y: -q.y, z: q.z, w: q.w)
@@ -42,7 +42,7 @@ extension CMDeviceMotion {
             
         case .portrait:
             
-            let cq = GLKQuaternionMakeWithAngleAndAxis(Float(-M_PI_2), 1, 0, 0)
+            let cq = GLKQuaternionMakeWithAngleAndAxis(-.pi/2, 1, 0, 0)
             let q = GLKQuaternionMultiply(cq, aq)
             
             final = SCNVector4(x: q.x, y: q.y, z: q.z, w: q.w)

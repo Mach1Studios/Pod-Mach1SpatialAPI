@@ -1,5 +1,5 @@
 use_frameworks!
-target 'mach1-example' do
+target 'mach1-encode-example' do
   pod 'Mach1SpatialAPI', :path => '../../'
 end
 post_install do |installer|

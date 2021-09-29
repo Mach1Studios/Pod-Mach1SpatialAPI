@@ -1,0 +1,16 @@
+PODS:
+  - Mach1SpatialAPI (0.1.25)
+
+DEPENDENCIES:
+  - Mach1SpatialAPI (from `../../`)
+
+EXTERNAL SOURCES:
+  Mach1SpatialAPI:
+    :path: "../../"
+
+SPEC CHECKSUMS:
+  Mach1SpatialAPI: b71950d5acd349424b862944648725141e61e18f
+
+PODFILE CHECKSUM: f679c2d4f8b2b9819eb3495c579c431dee0455c4
+
+COCOAPODS: 1.10.1
