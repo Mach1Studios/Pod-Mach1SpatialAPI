@@ -1,6 +1,8 @@
 <a href="http://dev.mach1.tech"><img src="http://dev.mach1.xyz/images/logo_big_b_l.png"></a>
 
 # Mach1SpatialAPI #
+[![Slack Channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/spatialaudio/shared_invite/enQtNjk0ODE4NjQ4NjExLWQ5YWUyNWQ4NWEwMDEwZmJiNmI5MzBhYjM3OTE3NTYxYzdjZDE2YTlhZDI4OGY0ZjdkNmM1NzgxNjI5OGU4ZWE)
+[![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red)](https://www.youtube.com/channel/UCqoFv8OnTYjkwjHeo6JDUFg)
 
 * [LICENSE](#license)
 * [SUMMARY](#summary)
@@ -25,10 +27,16 @@ permitted to use, link, compile and/or distribute any of the contents of this re
 * Mach1DecodePositional lib: Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
 * Mach1Transcode lib: Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
 
-## Example
+## Examples
 
 To run any of the example projects, clone the repo, and run `pod install` from the Example directory first.
-or setup all the examples by running `make build` in this directory
+or setup all the examples by running `make build` in this directory or following the README from each example.
+
+* mach1-decode-example: Example of using Mach1Decode API and device orientation to playback a spatial soundfield.
+* mach1-encode-example: Example UI of panning input mono/stereo sources to the Mach1 Spatial vector space via Mach1Encode API and playing it back simultaneously via the Mach1Decode API.
+* mach1-navigation-example: Example of using TTS output as a source input for the Mach1Encode API and spatializing the playback for usecases with navigation or spatial prompts.
+* mach1-positional-example: Example of using the Mach1Decode & Mach1DecodePositional APIs to playback a spatial soundfield with orientation and position data inputs.
+* mach1-transcode-example: Example of converting a soundfield mix from other formats to Mach1 Spatial as an example of agnostic format ingestion and playback using the Mach1Transcode API -> Mach1Decode API.
 
 ## Installation
 
