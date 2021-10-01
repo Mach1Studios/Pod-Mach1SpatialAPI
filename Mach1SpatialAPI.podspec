@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name                     = 'Mach1SpatialAPI'
-  s.version                  = '0.1.25'
-  s.summary                  = 'Mach1 Spatial APIs for iOS'
+  s.version                  = '0.1.26'
+  s.summary                  = 'Mach1 Spatial APIs for Swift'
 
   s.description              = <<-DESC
 Mach1 Spatial APIs are all contained in this pod which includes:
@@ -14,6 +14,7 @@ Mach1 Spatial APIs are all contained in this pod which includes:
   s.documentation_url        = 'https://dev.mach1.tech'
   s.source                   = { :git => 'https://github.com/Mach1Studios/Pod-Mach1SpatialAPI.git', :tag => s.version.to_s }
   s.platform                 = :ios, "9.3"
+  s.platform                 = :osx, "10.10"
   s.swift_version            = "5.0"
   s.pod_target_xcconfig      = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.user_target_xcconfig     = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
@@ -23,4 +24,7 @@ Mach1 Spatial APIs are all contained in this pod which includes:
 
   s.ios.vendored_libraries   = 'Mach1SpatialAPI/Lib/ios/*.a'
   s.ios.libraries            = 'c++'
+
+  s.osx.vendored_libraries   = 'Mach1SpatialAPI/Lib/osx/*.a'
+  s.osx.libraries            = 'c++'
 end
