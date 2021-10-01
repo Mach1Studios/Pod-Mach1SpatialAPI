@@ -133,10 +133,10 @@ class ViewController: UIViewController {
                 // Get the attitudes of the device
                 let attitude = motion?.attitude
                 //Device orientation management
-                var deviceYaw = attitude!.yaw * 180/M_PI
-                var devicePitch = attitude!.pitch * 180/M_PI
+                var deviceYaw = attitude!.yaw * 180 / .pi
+                var devicePitch = attitude!.pitch * 180 / .pi
                 //                    let devicePitch = 0.0
-                var deviceRoll = attitude!.roll * 180/M_PI
+                var deviceRoll = attitude!.roll * 180 / .pi
                 //                    let deviceRoll = 0.0
                 //                    print("Yaw: ", deviceYaw)
                 //                    print("Pitch: ", devicePitch)
