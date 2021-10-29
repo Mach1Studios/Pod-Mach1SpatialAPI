@@ -151,12 +151,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         do {
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1Decode.setPlatformType(type: Mach1PlatformiOS)
+            m1Decode.setPlatformType(type: Mach1PlatformDefault)
             //Setup the expected spatial audio mix format for decoding
             m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
             //1.0 = no filter | 0.1 = slow filter
-            m1Decode.setFilterSpeed(filterSpeed: 1.0)
+            m1Decode.setFilterSpeed(filterSpeed: 0.95)
             
         } catch {
             print (error)
@@ -188,30 +188,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 //                    let devicePitch = 0.0
                 var deviceRoll = attitude!.roll * 180/Double.pi
                 //                    let deviceRoll = 0.0
-                //                    print("Yaw: ", deviceYaw)
-                //                    print("Pitch: ", devicePitch)
                 
                 // Please notice that you're expected to correct the correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
-                // (documentation URL here)
-                switch UIDevice.current.orientation{
-                case .portrait:
-                    deviceYaw += 90
-                    devicePitch -= 90
-                case .portraitUpsideDown:
-                    deviceYaw -= 90
-                    devicePitch += 90
-                case .landscapeLeft:
-                    deviceRoll += 90
-                case .landscapeRight:
-                    deviceYaw += 180
-                    deviceRoll -= 90
-                default:
-                    break
-                }
+                // https://dev.mach1.tech/#mach1-internal-angle-standard
                 
+                // This example does not have motion management logic in place, it is expected
+                // that the app will be launched on a tabletop and will assume 0 values for
+                // yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
+                // is the expected usage.
+
                 DispatchQueue.main.async() {
-                    self?.yaw.text = String(deviceYaw)
+                    self?.yaw.text = String(-deviceYaw)
                     self?.pitch.text = String(devicePitch)
                     self?.roll.text = String(deviceRoll)
                 }
