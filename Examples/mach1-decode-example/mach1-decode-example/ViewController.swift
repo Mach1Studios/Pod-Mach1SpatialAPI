@@ -13,7 +13,7 @@ import Mach1SpatialAPI
 
 var motionManager = CMMotionManager()
 var stereoPlayer = AVAudioPlayer()
-var m1obj = Mach1Decode()
+var m1Decode = Mach1Decode()
 var stereoActive = false
 var isYawActive = true
 var isPitchActive = false
@@ -91,17 +91,16 @@ class ViewController: UIViewController {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformiOS)
+            m1Decode.setPlatformType(type: Mach1PlatformiOS)
             //Setup the expected spatial audio mix format for decoding
-            m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
+            m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
             //1.0 = no filter | 0.1 = slow filter
-            m1obj.setFilterSpeed(filterSpeed: 1.0)
-            
+            m1Decode.setFilterSpeed(filterSpeed: 0.95)
+
         } catch {
             print (error)
         }
-        
         
         //Static Stereo
         do{
@@ -138,34 +137,21 @@ class ViewController: UIViewController {
                 //                    let devicePitch = 0.0
                 var deviceRoll = attitude!.roll * 180 / .pi
                 //                    let deviceRoll = 0.0
-                //                    print("Yaw: ", deviceYaw)
-                //                    print("Pitch: ", devicePitch)
 
                 // Please notice that you're expected to correct the correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
-                // (documentation URL here)
-                switch UIDevice.current.orientation{
-                    case .portrait:
-                        deviceYaw += 90
-                        devicePitch -= 90
-                    case .portraitUpsideDown:
-                        deviceYaw -= 90
-                        devicePitch += 90
-                    case .landscapeLeft:
-                        deviceRoll += 90
-                    case .landscapeRight:
-                        deviceYaw += 180
-                        deviceRoll -= 90
-//                    default:
-                    
-                    default: break
-                    //
-                }
+                // https://dev.mach1.tech/#mach1-internal-angle-standard
+                
+                // This example does not have motion management logic in place, it is expected
+                // that the app will be launched on a tabletop and will assume 0 values for
+                // yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
+                // is the expected usage.                switch UIDevice.current.orientation{
                 
                 DispatchQueue.main.async() {
-                    self?.yaw.text = String(deviceYaw)
-                    self?.pitch.text = String(devicePitch)
-                    self?.roll.text = String(deviceRoll)
+                    // Return and display current corrected angle from Platform & filterspeed processing
+                    self?.yaw.text = String(m1Decode.getCurrentAngle().x)
+                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
+                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
                 }
                 //Mute stereo if off
                 if (stereoActive) {
@@ -175,10 +161,9 @@ class ViewController: UIViewController {
                 }
                 
                 //Send device orientation to m1obj with the preferred algo
-                m1obj.beginBuffer()
-                let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-                m1obj.endBuffer()
-                //                    print(decodeArray)
+                m1Decode.beginBuffer()
+                let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+                m1Decode.endBuffer()
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {
@@ -188,15 +173,11 @@ class ViewController: UIViewController {
                     print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
                     print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
                 }
-                
-                
             })
             print("Device motion started")
         } else {
             print("Device motion unavailable");
         }
-        
     }
-    
 }
 

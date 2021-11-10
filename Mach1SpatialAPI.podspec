@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                     = 'Mach1SpatialAPI'
-  s.version                  = '0.1.27'
+  s.version                  = '0.1.28'
   s.summary                  = 'Mach1 Spatial APIs for Swift'
 
   s.description              = <<-DESC

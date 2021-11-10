@@ -94,8 +94,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
                 m1Decode.endBuffer()
                 
-                //print(decodeArray)
-                
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0..<result.count {
                     players[i].setVolume(result[i], fadeDuration: 0)
@@ -151,7 +149,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         do {
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1Decode.setPlatformType(type: Mach1PlatformDefault)
+            m1Decode.setPlatformType(type: Mach1PlatformiOS)
             //Setup the expected spatial audio mix format for decoding
             m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
@@ -183,31 +181,33 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 // Get the attitudes of the device
                 let attitude = motion?.attitude
                 //Device orientation management
-                var deviceYaw = attitude!.yaw * 180/Double.pi
-                var devicePitch = attitude!.pitch * 180/Double.pi
+                var deviceYaw = attitude!.yaw * 180 / .pi
+                var devicePitch = attitude!.pitch * 180 / .pi
                 //                    let devicePitch = 0.0
-                var deviceRoll = attitude!.roll * 180/Double.pi
+                var deviceRoll = attitude!.roll * 180 / .pi
                 //                    let deviceRoll = 0.0
                 
-                // Please notice that you're expected to correct the correct the angles you get from
-                // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
-                // https://dev.mach1.tech/#mach1-internal-angle-standard
+                /// Warning:
+                /// You're expected to correct and manage the orientation from devices in accordance with your UX
+                /// to get accurate playback from Mach1Decode API
+                /// https://dev.mach1.tech/#mach1-internal-angle-standard
                 
-                // This example does not have motion management logic in place, it is expected
-                // that the app will be launched on a tabletop and will assume 0 values for
-                // yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
-                // is the expected usage.
+                /// This example does not have motion management logic in place, it is expected
+                /// that the app will be launched on a tabletop and will assume 0 values for
+                /// yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
+                /// is the expected usage.
 
                 DispatchQueue.main.async() {
-                    self?.yaw.text = String(-deviceYaw)
-                    self?.pitch.text = String(devicePitch)
-                    self?.roll.text = String(deviceRoll)
+                    // Return and display current corrected angle from Platform & filterspeed processing
+                    self?.yaw.text = String(-deviceYaw) //TODO: Fix issue with `PlatformType` not taking precedence when using inline transcode decode function
+                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
+                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
                 }
                 
                 if isPlaying {
                     //Send device orientation to m1obj with the preferred algo
                     m1Decode.beginBuffer()
-                    m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
+                    m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(-deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
                     let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
                     m1Decode.endBuffer()
                     
@@ -219,13 +219,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                         //print(String(players[i].currentTime) + " ; " + String(i))
                     }
                 }
-                
             })
             print("Device motion started")
         } else {
             print("Device motion unavailable");
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -248,5 +246,3 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         return pickerData[row].name
     }
 }
-
-

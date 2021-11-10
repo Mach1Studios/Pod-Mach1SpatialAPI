@@ -162,7 +162,7 @@ class ViewController: UIViewController {
         m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
         //Setup for the safety filter speed:
         //1.0 = no filter | 0.1 = slow filter
-        m1Decode.setFilterSpeed(filterSpeed: 1.0)
+        m1Decode.setFilterSpeed(filterSpeed: 0.95)
        
         // timer for draw update
         Timer.scheduledTimer(timeInterval: 1.0 / 60.0, target: self, selector: (#selector(ViewController.update)), userInfo: nil, repeats: true)
@@ -193,7 +193,6 @@ class ViewController: UIViewController {
                         "Roll: " + String(format: "%.3f", angles.z) + "°"
                     */
                 }
-
             })
             print("Device motion started")
         } else {
@@ -210,7 +209,4 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 }
-
-
