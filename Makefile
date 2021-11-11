@@ -35,5 +35,6 @@ endif
 build: 
 	cd Examples/mach1-encode-example && pod install
 	cd Examples/mach1-decode-example && pod install
+	cd Examples/mach1-navigation-example && pod install
 	cd Examples/mach1-positional-example && pod install
 	cd Examples/mach1-transcode-example && pod install
