@@ -32,7 +32,7 @@ endif
 ifeq ($(detected_OS),Windows)
 endif
 
-build: setup
+build: 
 	cd Examples/mach1-encode-example && pod install
 	cd Examples/mach1-decode-example && pod install
 	cd Examples/mach1-positional-example && pod install

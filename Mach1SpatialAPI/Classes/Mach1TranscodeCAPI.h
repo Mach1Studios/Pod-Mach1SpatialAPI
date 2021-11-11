@@ -86,7 +86,8 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatACNSN3DmaxRE5oa,
 	Mach1TranscodeFormatACNSN3DmaxRE6oa,
 	Mach1TranscodeFormatACNSN3DmaxRE7oa,
-	Mach1TranscodeFormatDolbyAtmosSevenOneTwo
+	Mach1TranscodeFormatDolbyAtmosSevenOneTwo,
+	Mach1TranscodeFormatFiveOneFourSMPTE
 };
 
 /* TODO: Implement process settings for object-audio format conversions
@@ -127,7 +128,7 @@ extern "C" {
 	M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(void* M1obj, char* outJson);
 	M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPoints(void* M1obj, struct Mach1Point3D* points, int count);
 
-	M1_API void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(void* M1obj, Mach1Point3D *(*callback)(long long, int &));
+	//M1_API void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(void* M1obj, Mach1Point3D *(*callback)(long long, int &));
 
 	M1_API bool Mach1TranscodeCAPI_processConversionPath(void* M1obj);
 	M1_API void Mach1TranscodeCAPI_getMatrixConversion(void* M1obj, float* matrix);
