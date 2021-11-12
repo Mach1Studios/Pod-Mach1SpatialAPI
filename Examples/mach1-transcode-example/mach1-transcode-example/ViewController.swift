@@ -19,6 +19,7 @@ private var motionManager = CMMotionManager()
 @available(iOS 14.0, *)
 private var headphoneMotionManager = CMHeadphoneMotionManager()
 private var bUseHeadphoneOrientationData = false
+var currentSelection: Int = 0
 
 private var m1Decode = Mach1Decode()
 private var m1Transcode = Mach1Transcode()
@@ -40,6 +41,7 @@ private var matrix: [[Float]] = []
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, CMHeadphoneMotionManagerDelegate {
     
     @IBOutlet weak var UseHeadphoneOrientationDataSwitch: UISwitch!
+    @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var yaw: UILabel!
     @IBOutlet weak var pitch: UILabel!
@@ -68,20 +70,20 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             ]),
         ]
     
-    @IBAction func playButton(_ sender: Any) {
+    func playAudio(){
         if !isPlaying {
-            let selectedAudio = picker.selectedRow(inComponent: 0)
-            print("selectedAudio:", selectedAudio)
+            let currentSelection = picker.selectedRow(inComponent: 0)
+            print("selectedAudio:", currentSelection)
             
             do {
                 players = []
                 
                 var idx = 0
-                for i in 0..<pickerData[selectedAudio].files.count {
+                for i in 0..<pickerData[currentSelection].files.count {
                     //load in the individual streams of audio from a Mach1 Spatial encoded audio file
                     //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
-                    players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
-                    players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[selectedAudio].files[i], ofType: "wav")!)))
+                    players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[currentSelection].files[i], ofType: "wav")!)))
+                    players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[currentSelection].files[i], ofType: "wav")!)))
                     
                     players[idx].numberOfLoops = 10
                     players[idx].pan = 1.0;
@@ -97,7 +99,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 }
 
                 //Mach1 Transcode Setup
-                m1Transcode.setInputFormat(inFmt: pickerData[selectedAudio].format)
+                m1Transcode.setInputFormat(inFmt: pickerData[currentSelection].format)
                 m1Transcode.setOutputFormat(outFmt: Mach1TranscodeFormatM1Spatial)
                 m1Transcode.processConversionPath()
                 matrix = m1Transcode.getMatrixConversion()
@@ -128,7 +130,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
-    @IBAction func stopButton(_ sender: Any) {
+    func stopAudio(){
         isPlaying = false
 
         for audioPlayer in players {
@@ -141,6 +143,21 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         bUseHeadphoneOrientationData = UseHeadphoneOrientationDataSwitch.isOn
     }
     
+    @IBAction func playButtonTapped(_ sender: UIButton) {
+        togglePlayButton()
+    }
+    
+    func togglePlayButton() {
+        if !isPlaying {
+            playAudio()
+        } else if isPlaying {
+            stopAudio()
+        }
+        let playButtonStatus = isPlaying ? "Stop" : "Play"
+        playButton.setTitle(playButtonStatus, for: [.normal])
+    }
+    
+
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
     }
@@ -269,6 +286,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .portrait
+        } else {
+            return .allButUpsideDown
+        }
+    }
+            
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
