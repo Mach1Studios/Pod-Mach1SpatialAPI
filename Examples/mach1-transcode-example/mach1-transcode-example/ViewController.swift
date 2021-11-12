@@ -11,7 +11,15 @@ import CoreMotion
 import AVFoundation
 import Mach1SpatialAPI
 
+/// As of 11/11/2021 the recommended minimum iOS target is 14.0 to make the examples
+/// compatible with Headphone Motion Manager API from Apple.
+/// if you require targetting an older version of iOS SDK, please remove all logic using
+/// `CMHeadphoneMotionManager`or roll back to an older example version.
 private var motionManager = CMMotionManager()
+@available(iOS 14.0, *)
+private var headphoneMotionManager = CMHeadphoneMotionManager()
+private var bUseHeadphoneOrientationData = false
+
 private var m1Decode = Mach1Decode()
 private var m1Transcode = Mach1Transcode()
 
@@ -19,14 +27,19 @@ private var isYawActive = true
 private var isPitchActive = false
 private var isRollActive = false
 private var isPlaying = false
+var deviceYaw = 0.0
+var devicePitch = 0.0
+var deviceRoll = 0.0
 
 private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
 private var players: [AVAudioPlayer] = []
 private var matrix: [[Float]] = []
 
-class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+@available(iOS 14.0, *)
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, CMHeadphoneMotionManagerDelegate {
     
+    @IBOutlet weak var UseHeadphoneOrientationDataSwitch: UISwitch!
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var yaw: UILabel!
     @IBOutlet weak var pitch: UILabel!
@@ -99,12 +112,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     players[i].setVolume(result[i], fadeDuration: 0)
                     //print(String(players[i].currentTime) + " ; " + String(i))
                 }
-                
-                
             } catch {
                 print (error)
             }
-            
             
             let startDelayTime = 1.0
             let now = players[0].deviceCurrentTime
@@ -127,6 +137,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         players = []
     }
     
+    @IBAction func headphoneIMUActive(_ sender: Any) {
+        bUseHeadphoneOrientationData = UseHeadphoneOrientationDataSwitch.isOn
+    }
+    
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
     }
@@ -137,6 +151,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBAction func rollActive(_ sender: Any) {
         isRollActive = !isRollActive
+    }
+    
+    func headphoneMotionManagerDidConnect(_ manager: CMHeadphoneMotionManager) {
+        print("connect")
+    }
+    func headphoneMotionManagerDidDisconnect(_ manager: CMHeadphoneMotionManager) {
+        print("disconnect")
     }
     
     override func viewDidLoad() {
@@ -172,21 +193,36 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             print(error)
         }
         
-        // Ensure to keep a strong reference to the motion manager otherwise you won't get updates
-        if motionManager.isDeviceMotionAvailable == true {
-            motionManager.deviceMotionUpdateInterval = 0.01;
+        /// This example declares 2 motion managers:
+        /// `headphoneMotionManager` is for headphone IMU enalbed device
+        /// `motionManager` is for the native device's IMU
+        /// `bUseHeadphones` lazily swaps between both manager's orientation updates
+        motionManager = CMMotionManager()
+        headphoneMotionManager = CMHeadphoneMotionManager()
+        headphoneMotionManager.delegate = self
+        if (headphoneMotionManager.isDeviceMotionAvailable == true) || (motionManager.isDeviceMotionAvailable == true) {
             let queue = OperationQueue()
+            motionManager.deviceMotionUpdateInterval = 0.01
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
                 
-                // Get the attitudes of the device
-                let attitude = motion?.attitude
-                //Device orientation management
-                var deviceYaw = attitude!.yaw * 180 / .pi
-                var devicePitch = attitude!.pitch * 180 / .pi
-                //                    let devicePitch = 0.0
-                var deviceRoll = attitude!.roll * 180 / .pi
-                //                    let deviceRoll = 0.0
-                
+                if (bUseHeadphoneOrientationData){
+                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
+                        // Get the attitudes of the device
+                        let hpattitude = headphonemotion?.attitude
+                        //Device orientation management
+                        deviceYaw = hpattitude!.yaw * 180 / .pi
+                        devicePitch = hpattitude!.pitch * 180 / .pi
+                        deviceRoll = hpattitude!.roll * 180 / .pi
+                    })
+                } else {
+                    // Get the attitudes of the device
+                    let attitude = motion?.attitude
+                    //Device orientation management
+                    deviceYaw = attitude!.yaw * 180 / .pi
+                    devicePitch = attitude!.pitch * 180 / .pi
+                    deviceRoll = attitude!.roll * 180 / .pi
+                }
+                                                                    
                 /// Warning:
                 /// You're expected to correct and manage the orientation from devices in accordance with your UX
                 /// to get accurate playback from Mach1Decode API
@@ -196,13 +232,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 /// that the app will be launched on a tabletop and will assume 0 values for
                 /// yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
                 /// is the expected usage.
-
-                DispatchQueue.main.async() {
-                    // Return and display current corrected angle from Platform & filterspeed processing
-                    self?.yaw.text = String(-deviceYaw) //TODO: Fix issue with `PlatformType` not taking precedence when using inline transcode decode function
-                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
-                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
-                }
                 
                 if isPlaying {
                     //Send device orientation to m1obj with the preferred algo
@@ -210,14 +239,19 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(-deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
                     let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
                     m1Decode.endBuffer()
-                    
-                    //print(decodeArray)
-                    
+                                        
                     //Use each coeff to decode multichannel Mach1 Spatial mix
                     for i in 0..<result.count {
                         players[i].setVolume(result[i], fadeDuration: 0)
                         //print(String(players[i].currentTime) + " ; " + String(i))
                     }
+                }
+                
+                DispatchQueue.main.async() {
+                    // Return and display current corrected angle from Platform & filterspeed processing
+                    self?.yaw.text = String(-deviceYaw) //TODO: Fix issue with `PlatformType` not taking precedence when using inline transcode decode function
+                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
+                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
                 }
             })
             print("Device motion started")

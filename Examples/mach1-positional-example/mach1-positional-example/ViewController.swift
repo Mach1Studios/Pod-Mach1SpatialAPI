@@ -12,15 +12,26 @@ import AVFoundation
 import SceneKit
 import Mach1SpatialAPI
 
-var motionManager = CMMotionManager()
-var stereoPlayer = AVAudioPlayer()
+/// As of 11/11/2021 the recommended minimum iOS target is 14.0 to make the examples
+/// compatible with Headphone Motion Manager API from Apple.
+/// if you require targetting an older version of iOS SDK, please remove all logic using
+/// `CMHeadphoneMotionManager`or roll back to an older example version.
+private var motionManager = CMMotionManager()
+@available(iOS 14.0, *)
+private var headphoneMotionManager = CMHeadphoneMotionManager()
+private var bUseHeadphoneOrientationData = false
+
 var m1obj = Mach1DecodePositional()
+var stereoPlayer = AVAudioPlayer()
+
 var stereoActive = false
 var isYawActive = true
 var isPitchActive = true
 var isRollActive = true
 var isPlaying = false
-
+var cameraPitch : Float = 0
+var cameraYaw : Float = 0
+var cameraRoll : Float = 0
 
 private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
@@ -72,12 +83,11 @@ func getEuler(q1 : SCNVector4) -> float3
     return res * 180 / .pi
 }
 
-var cameraPitch : Float = 0
-var cameraYaw : Float = 0
-var cameraRoll : Float = 0
-
-class ViewController : UIViewController, UITextFieldDelegate {
+@available(iOS 14.0, *)
+class ViewController : UIViewController, UITextFieldDelegate, CMHeadphoneMotionManagerDelegate {
     
+    @IBOutlet weak var UseHeadphoneOrientationDataSwitch: UISwitch!
+
     @IBOutlet weak var labelCameraYaw: UILabel!
     @IBOutlet weak var labelCameraPitch: UILabel!
     @IBOutlet weak var labelCameraRoll: UILabel!
@@ -127,6 +137,10 @@ class ViewController : UIViewController, UITextFieldDelegate {
         stereoActive = !stereoActive
     }
     
+    @IBAction func headphoneIMUActive(_ sender: Any) {
+        bUseHeadphoneOrientationData = UseHeadphoneOrientationDataSwitch.isOn
+    }
+    
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
     }
@@ -139,8 +153,14 @@ class ViewController : UIViewController, UITextFieldDelegate {
         isRollActive = !isRollActive
     }
     
-    weak var threedview: GameViewController?
+    func headphoneMotionManagerDidConnect(_ manager: CMHeadphoneMotionManager) {
+        print("connect")
+    }
+    func headphoneMotionManagerDidDisconnect(_ manager: CMHeadphoneMotionManager) {
+        print("disconnect")
+    }
     
+    weak var threedview: GameViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,7 +214,6 @@ class ViewController : UIViewController, UITextFieldDelegate {
             print (error)
         }
         
-        
         //Static Stereo
         do{
             stereoPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "stereo", ofType: "wav")!))
@@ -216,19 +235,35 @@ class ViewController : UIViewController, UITextFieldDelegate {
             print(error)
         }
         
-        // Ensure to keep a strong reference to the motion manager otherwise you won't get updates
+        /// This example declares 2 motion managers:
+        /// `headphoneMotionManager` is for headphone IMU enalbed device
+        /// `motionManager` is for the native device's IMU
+        /// `bUseHeadphones` lazily swaps between both manager's orientation updates
+        motionManager = CMMotionManager()
+        headphoneMotionManager = CMHeadphoneMotionManager()
+        headphoneMotionManager.delegate = self
         if motionManager.isDeviceMotionAvailable == true {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
             motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical,  to: queue, withHandler: { [weak self] (motion, error) -> Void in
                 
-                // Get the attitudes of the device
-                let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
-                var angles = getEuler(q1: quat!)
-                
-                cameraYaw = angles.x
-                cameraPitch = angles.y
-                cameraRoll = angles.z
+                if (bUseHeadphoneOrientationData){
+                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
+                        // Get the attitudes of the device
+                        let quat = headphonemotion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
+                        let angles = getEuler(q1: quat!)
+                        cameraYaw = angles.x
+                        cameraPitch = angles.y
+                        cameraRoll = angles.z
+                    })
+                } else {
+                    // Get the attitudes of the device
+                    let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
+                    let angles = getEuler(q1: quat!)
+                    cameraYaw = angles.x
+                    cameraPitch = angles.y
+                    cameraRoll = angles.z
+                }
 
                 /// Warning:
                 /// You're expected to correct and manage the orientation from devices in accordance with your UX

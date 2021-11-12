@@ -1,5 +1,6 @@
-use_frameworks!
 target 'mach1-decode-example' do
+  use_frameworks!
+  platform :ios, '14.0'
   pod 'Mach1SpatialAPI', :path => '../../'
 end
 post_install do |installer|

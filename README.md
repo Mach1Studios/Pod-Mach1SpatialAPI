@@ -38,6 +38,9 @@ or setup all the examples by running `make build` in this directory or following
 * mach1-positional-example: Example of using the Mach1Decode & Mach1DecodePositional APIs to playback a spatial soundfield with orientation and position data inputs.
 * mach1-transcode-example: Example of converting a soundfield mix from other formats to Mach1 Spatial as an example of agnostic format ingestion and playback using the Mach1Transcode API -> Mach1Decode API.
 
+_As of 11/11/2021 the recommended minimum iOS target is 14.0 to make the examples compatible with Headphone Motion Manager API from Apple.
+If you require targetting an older version of iOS SDK, please remove all logic using `CMHeadphoneMotionManager` and correct the project's logic accordingly, or roll back to an older example version._
+
 ## Installation
 
 Mach1SpatialAPI is available internally only (release version coming soon). 

@@ -11,21 +11,35 @@ import CoreMotion
 import AVFoundation
 import Mach1SpatialAPI
 
-var motionManager = CMMotionManager()
-var stereoPlayer = AVAudioPlayer()
+/// As of 11/11/2021 the recommended minimum iOS target is 14.0 to make the examples
+/// compatible with Headphone Motion Manager API from Apple.
+/// if you require targetting an older version of iOS SDK, please remove all logic using
+/// `CMHeadphoneMotionManager`or roll back to an older example version.
+private var motionManager = CMMotionManager()
+@available(iOS 14.0, *)
+private var headphoneMotionManager = CMHeadphoneMotionManager()
+private var bUseHeadphoneOrientationData = false
+
 var m1Decode = Mach1Decode()
+var stereoPlayer = AVAudioPlayer()
+
 var stereoActive = false
 var isYawActive = true
 var isPitchActive = false
 var isRollActive = false
 var isPlaying = false
+var deviceYaw = 0.0
+var devicePitch = 0.0
+var deviceRoll = 0.0
 
 private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
 var players: [AVAudioPlayer] = []
 
-class ViewController: UIViewController {
+@available(iOS 14.0, *)
+class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
     
+    @IBOutlet weak var UseHeadphoneOrientationDataSwitch: UISwitch!
     @IBOutlet weak var yaw: UILabel!
     @IBOutlet weak var pitch: UILabel!
     @IBOutlet weak var roll: UILabel!
@@ -59,6 +73,9 @@ class ViewController: UIViewController {
     @IBAction func staticStereoActive(_ sender: Any) {
         stereoActive = !stereoActive
     }
+    @IBAction func headphoneIMUActive(_ sender: Any) {
+        bUseHeadphoneOrientationData = UseHeadphoneOrientationDataSwitch.isOn
+    }
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
     }
@@ -67,6 +84,12 @@ class ViewController: UIViewController {
     }
     @IBAction func rollActive(_ sender: Any) {
         isRollActive = !isRollActive
+    }
+    func headphoneMotionManagerDidConnect(_ manager: CMHeadphoneMotionManager) {
+        print("connect")
+    }
+    func headphoneMotionManagerDidDisconnect(_ manager: CMHeadphoneMotionManager) {
+        print("disconnect")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,21 +146,36 @@ class ViewController: UIViewController {
             print(error)
         }
         
-        // Ensure to keep a strong reference to the motion manager otherwise you won't get updates
-        if motionManager.isDeviceMotionAvailable == true {
+        /// This example declares 2 motion managers:
+        /// `headphoneMotionManager` is for headphone IMU enalbed device
+        /// `motionManager` is for the native device's IMU
+        /// `bUseHeadphones` lazily swaps between both manager's orientation updates
+        motionManager = CMMotionManager()
+        headphoneMotionManager = CMHeadphoneMotionManager()
+        headphoneMotionManager.delegate = self
+        if (headphoneMotionManager.isDeviceMotionAvailable == true) || (motionManager.isDeviceMotionAvailable == true) {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
                 
-                // Get the attitudes of the device
-                let attitude = motion?.attitude
-                //Device orientation management
-                var deviceYaw = attitude!.yaw * 180 / .pi
-                var devicePitch = attitude!.pitch * 180 / .pi
-                //                    let devicePitch = 0.0
-                var deviceRoll = attitude!.roll * 180 / .pi
-                //                    let deviceRoll = 0.0
-
+                if (bUseHeadphoneOrientationData){
+                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
+                        // Get the attitudes of the device
+                        let hpattitude = headphonemotion?.attitude
+                        //Device orientation management
+                        deviceYaw = hpattitude!.yaw * 180 / .pi
+                        devicePitch = hpattitude!.pitch * 180 / .pi
+                        deviceRoll = hpattitude!.roll * 180 / .pi
+                    })
+                } else {
+                    // Get the attitudes of the device
+                    let attitude = motion?.attitude
+                    //Device orientation management
+                    deviceYaw = attitude!.yaw * 180 / .pi
+                    devicePitch = attitude!.pitch * 180 / .pi
+                    deviceRoll = attitude!.roll * 180 / .pi
+                }
+                
                 // Please notice that you're expected to correct the correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
                 // https://dev.mach1.tech/#mach1-internal-angle-standard
@@ -147,12 +185,6 @@ class ViewController: UIViewController {
                 // yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
                 // is the expected usage.                switch UIDevice.current.orientation{
                 
-                DispatchQueue.main.async() {
-                    // Return and display current corrected angle from Platform & filterspeed processing
-                    self?.yaw.text = String(m1Decode.getCurrentAngle().x)
-                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
-                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
-                }
                 //Mute stereo if off
                 if (stereoActive) {
                     stereoPlayer.setVolume(1.0, fadeDuration: 0.1)
@@ -172,6 +204,13 @@ class ViewController: UIViewController {
                     
                     print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
                     print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
+                }
+                
+                DispatchQueue.main.async() {
+                    // Return and display current corrected angle from Platform & filterspeed processing
+                    self?.yaw.text = String(m1Decode.getCurrentAngle().x)
+                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
+                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
                 }
             })
             print("Device motion started")

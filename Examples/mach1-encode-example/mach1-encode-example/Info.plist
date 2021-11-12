@@ -41,5 +41,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSMotionUsageDescription</key>
+	<string>Uses IMU enabled devices supported by Apple&apos;s CoreMotionHeadphoneManager API to playback headtracking spatial audio properly.</string>
 </dict>
 </plist>
