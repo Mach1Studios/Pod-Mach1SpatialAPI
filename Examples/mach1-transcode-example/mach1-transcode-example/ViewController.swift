@@ -155,9 +155,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     func headphoneMotionManagerDidConnect(_ manager: CMHeadphoneMotionManager) {
         print("connect")
+        bUseHeadphoneOrientationData = true
+        DispatchQueue.main.async() {
+            self.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+        }
     }
     func headphoneMotionManagerDidDisconnect(_ manager: CMHeadphoneMotionManager) {
         print("disconnect")
+        bUseHeadphoneOrientationData = false
+        DispatchQueue.main.async() {
+            self.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+        }
     }
     
     override func viewDidLoad() {
@@ -196,16 +204,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         /// This example declares 2 motion managers:
         /// `headphoneMotionManager` is for headphone IMU enalbed device
         /// `motionManager` is for the native device's IMU
-        /// `bUseHeadphones` lazily swaps between both manager's orientation updates
-        motionManager = CMMotionManager()
-        headphoneMotionManager = CMHeadphoneMotionManager()
+        /// `bUseHeadphoneOrientationData` lazily swaps between both manager's orientation updates
         headphoneMotionManager.delegate = self
         if (headphoneMotionManager.isDeviceMotionAvailable == true) || (motionManager.isDeviceMotionAvailable == true) {
             let queue = OperationQueue()
             motionManager.deviceMotionUpdateInterval = 0.01
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
-                
-                if (bUseHeadphoneOrientationData){
+                if (bUseHeadphoneOrientationData && headphoneMotionManager.isDeviceMotionAvailable){
                     headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
                         // Get the attitudes of the device
                         let hpattitude = headphonemotion?.attitude
@@ -221,6 +226,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     deviceYaw = attitude!.yaw * 180 / .pi
                     devicePitch = attitude!.pitch * 180 / .pi
                     deviceRoll = attitude!.roll * 180 / .pi
+                    DispatchQueue.main.async() {
+                        bUseHeadphoneOrientationData = false
+                        self!.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+                    }
                 }
                                                                     
                 /// Warning:
