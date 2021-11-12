@@ -87,10 +87,19 @@ class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
     }
     func headphoneMotionManagerDidConnect(_ manager: CMHeadphoneMotionManager) {
         print("connect")
+        bUseHeadphoneOrientationData = true
+        DispatchQueue.main.async() {
+            self.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+        }
     }
     func headphoneMotionManagerDidDisconnect(_ manager: CMHeadphoneMotionManager) {
         print("disconnect")
+        bUseHeadphoneOrientationData = false
+        DispatchQueue.main.async() {
+            self.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+        }
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -149,17 +158,14 @@ class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
         /// This example declares 2 motion managers:
         /// `headphoneMotionManager` is for headphone IMU enalbed device
         /// `motionManager` is for the native device's IMU
-        /// `bUseHeadphones` lazily swaps between both manager's orientation updates
-        motionManager = CMMotionManager()
-        headphoneMotionManager = CMHeadphoneMotionManager()
+        /// `bUseHeadphoneOrientationData` lazily swaps between both manager's orientation updates
         headphoneMotionManager.delegate = self
         if (headphoneMotionManager.isDeviceMotionAvailable == true) || (motionManager.isDeviceMotionAvailable == true) {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
                 
-                if (bUseHeadphoneOrientationData){
-                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
+                if (bUseHeadphoneOrientationData && headphoneMotionManager.isDeviceMotionAvailable){                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
                         // Get the attitudes of the device
                         let hpattitude = headphonemotion?.attitude
                         //Device orientation management
@@ -174,6 +180,10 @@ class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
                     deviceYaw = attitude!.yaw * 180 / .pi
                     devicePitch = attitude!.pitch * 180 / .pi
                     deviceRoll = attitude!.roll * 180 / .pi
+                    DispatchQueue.main.async() {
+                        bUseHeadphoneOrientationData = false
+                        self!.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+                    }
                 }
                 
                 // Please notice that you're expected to correct the correct the angles you get from
@@ -201,9 +211,8 @@ class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
                 for i in 0...7 {
                     players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
                     players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
-                    
-                    print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                    print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
+                    //print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
+                    //print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
                 }
                 
                 DispatchQueue.main.async() {
