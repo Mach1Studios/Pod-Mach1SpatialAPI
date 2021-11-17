@@ -85,13 +85,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[currentSelection].files[i], ofType: "wav")!)))
                     players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: pickerData[currentSelection].files[i], ofType: "wav")!)))
                     
-                    players[idx].numberOfLoops = 10
+                    players[idx].numberOfLoops = -1
                     players[idx].pan = 1.0;
                     players[idx].volume = 0.0;
                     players[idx].prepareToPlay()
                     idx = idx + 1
                     
-                    players[idx].numberOfLoops = 10
+                    players[idx].numberOfLoops = -1
                     players[idx].pan = -1.0;
                     players[idx].volume = 0.0;
                     players[idx].prepareToPlay()
@@ -156,7 +156,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let playButtonStatus = isPlaying ? "Stop" : "Play"
         playButton.setTitle(playButtonStatus, for: [.normal])
     }
-    
 
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
@@ -236,6 +235,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                         devicePitch = hpattitude!.pitch * 180 / .pi
                         deviceRoll = hpattitude!.roll * 180 / .pi
                     })
+                    if (!headphoneMotionManager.isDeviceMotionActive) {
+                        bUseHeadphoneOrientationData = false
+                    }
                 } else {
                     // Get the attitudes of the device
                     let attitude = motion?.attitude
@@ -309,7 +311,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         return pickerData.count
     }
     
-    // The data to return fopr the row and component (column) that's being passed in
+    // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row].name
     }

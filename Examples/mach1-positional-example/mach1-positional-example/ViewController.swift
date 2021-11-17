@@ -246,8 +246,7 @@ class ViewController : UIViewController, UITextFieldDelegate, CMHeadphoneMotionM
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
             motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical,  to: queue, withHandler: { [weak self] (motion, error) -> Void in
-                
-                if (bUseHeadphoneOrientationData){
+                if (bUseHeadphoneOrientationData && headphoneMotionManager.isDeviceMotionAvailable){
                     headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
                         // Get the attitudes of the device
                         let quat = headphonemotion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
@@ -256,6 +255,9 @@ class ViewController : UIViewController, UITextFieldDelegate, CMHeadphoneMotionM
                         cameraPitch = angles.y
                         cameraRoll = angles.z
                     })
+                    if (!headphoneMotionManager.isDeviceMotionActive) {
+                        bUseHeadphoneOrientationData = false
+                    }
                 } else {
                     // Get the attitudes of the device
                     let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)

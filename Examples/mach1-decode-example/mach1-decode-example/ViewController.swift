@@ -164,8 +164,8 @@ class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
-                
-                if (bUseHeadphoneOrientationData && headphoneMotionManager.isDeviceMotionAvailable){                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
+                if (bUseHeadphoneOrientationData && headphoneMotionManager.isDeviceMotionAvailable){ 
+                        headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
                         // Get the attitudes of the device
                         let hpattitude = headphonemotion?.attitude
                         //Device orientation management
@@ -173,6 +173,9 @@ class ViewController: UIViewController, CMHeadphoneMotionManagerDelegate {
                         devicePitch = hpattitude!.pitch * 180 / .pi
                         deviceRoll = hpattitude!.roll * 180 / .pi
                     })
+                    if (!headphoneMotionManager.isDeviceMotionActive) { // If CoreMotionHeadphone device not found, revert back to native device IMU
+                        bUseHeadphoneOrientationData = false
+                    }
                 } else {
                     // Get the attitudes of the device
                     let attitude = motion?.attitude
