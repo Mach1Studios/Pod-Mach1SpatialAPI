@@ -18,7 +18,7 @@ import Mach1SpatialAPI
 private var motionManager = CMMotionManager()
 @available(iOS 14.0, *)
 private var headphoneMotionManager = CMHeadphoneMotionManager()
-private var bUseHeadphoneOrientationData = false
+private var bUseCoreMotionHeadphones = false
 var currentSelection: Int = 0
 
 private var m1Decode = Mach1Decode()
@@ -140,7 +140,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func headphoneIMUActive(_ sender: Any) {
-        bUseHeadphoneOrientationData = UseHeadphoneOrientationDataSwitch.isOn
+        bUseCoreMotionHeadphones = UseHeadphoneOrientationDataSwitch.isOn
     }
     
     @IBAction func playButtonTapped(_ sender: UIButton) {
@@ -171,16 +171,16 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     func headphoneMotionManagerDidConnect(_ manager: CMHeadphoneMotionManager) {
         print("connect")
-        bUseHeadphoneOrientationData = true
+        bUseCoreMotionHeadphones = true
         DispatchQueue.main.async() {
-            self.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+            self.UseHeadphoneOrientationDataSwitch.setOn(bUseCoreMotionHeadphones, animated: true)
         }
     }
     func headphoneMotionManagerDidDisconnect(_ manager: CMHeadphoneMotionManager) {
         print("disconnect")
-        bUseHeadphoneOrientationData = false
+        bUseCoreMotionHeadphones = false
         DispatchQueue.main.async() {
-            self.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+            self.UseHeadphoneOrientationDataSwitch.setOn(bUseCoreMotionHeadphones, animated: true)
         }
     }
     
@@ -217,74 +217,98 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             print(error)
         }
         
+        /// Warning:
+        /// You're expected to correct and manage the orientation from devices in accordance with your UX
+        /// to get accurate playback from Mach1Decode API
+        /// https://dev.mach1.tech/#mach1-internal-angle-standard
+        
+        /// This example does not have motion management logic in place, it is expected
+        /// that the app will be launched on a tabletop and will assume 0 values for
+        /// yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
+        /// is the expected usage.
+        
         /// This example declares 2 motion managers:
         /// `headphoneMotionManager` is for headphone IMU enalbed device
         /// `motionManager` is for the native device's IMU
-        /// `bUseHeadphoneOrientationData` lazily swaps between both manager's orientation updates
+        /// `bUseCoreMotionHeadphones` is used to block the update thread of one of the two motion managers
+        ///  based on detection of supported IMU headphone devices
+        
         headphoneMotionManager.delegate = self
+        
         if (headphoneMotionManager.isDeviceMotionAvailable == true) || (motionManager.isDeviceMotionAvailable == true) {
             let queue = OperationQueue()
             motionManager.deviceMotionUpdateInterval = 0.01
+            
+            /// Start native IMU core motion manager thread
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
-                if (bUseHeadphoneOrientationData && headphoneMotionManager.isDeviceMotionAvailable){
-                    headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
-                        // Get the attitudes of the device
-                        let hpattitude = headphonemotion?.attitude
-                        //Device orientation management
-                        deviceYaw = hpattitude!.yaw * 180 / .pi
-                        devicePitch = hpattitude!.pitch * 180 / .pi
-                        deviceRoll = hpattitude!.roll * 180 / .pi
-                    })
-                    if (!headphoneMotionManager.isDeviceMotionActive) {
-                        bUseHeadphoneOrientationData = false
-                    }
-                } else {
+                // block update thread unless all other motion managers are inactive
+                if (!bUseCoreMotionHeadphones && motionManager.isDeviceMotionAvailable) {
                     // Get the attitudes of the device
                     let attitude = motion?.attitude
                     //Device orientation management
                     deviceYaw = attitude!.yaw * 180 / .pi
                     devicePitch = attitude!.pitch * 180 / .pi
                     deviceRoll = attitude!.roll * 180 / .pi
+                    
+                    if isPlaying {
+                        //Send device orientation to m1obj with the preferred algo
+                        m1Decode.beginBuffer()
+                        m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(-deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
+                        let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
+                        m1Decode.endBuffer()
+                                            
+                        //Use each coeff to decode multichannel Mach1 Spatial mix
+                        for i in 0..<result.count {
+                            players[i].setVolume(result[i], fadeDuration: 0)
+                            //print(String(players[i].currentTime) + " ; " + String(i))
+                        }
+                    }
+                    
                     DispatchQueue.main.async() {
-                        bUseHeadphoneOrientationData = false
-                        self!.UseHeadphoneOrientationDataSwitch.setOn(bUseHeadphoneOrientationData, animated: true)
+                        // Return and display current corrected angle from Platform & filterspeed processing
+                        self?.yaw.text = String(m1Decode.getCurrentAngle().x)
+                        self?.pitch.text = String(m1Decode.getCurrentAngle().y)
+                        self?.roll.text = String(m1Decode.getCurrentAngle().z)
                     }
-                }
-                                                                    
-                /// Warning:
-                /// You're expected to correct and manage the orientation from devices in accordance with your UX
-                /// to get accurate playback from Mach1Decode API
-                /// https://dev.mach1.tech/#mach1-internal-angle-standard
-                
-                /// This example does not have motion management logic in place, it is expected
-                /// that the app will be launched on a tabletop and will assume 0 values for
-                /// yaw, pitch, roll upon launch. Rotating the device in portrait mode on table
-                /// is the expected usage.
-                
-                if isPlaying {
-                    //Send device orientation to m1obj with the preferred algo
-                    m1Decode.beginBuffer()
-                    m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(-deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
-                    let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
-                    m1Decode.endBuffer()
-                                        
-                    //Use each coeff to decode multichannel Mach1 Spatial mix
-                    for i in 0..<result.count {
-                        players[i].setVolume(result[i], fadeDuration: 0)
-                        //print(String(players[i].currentTime) + " ; " + String(i))
-                    }
-                }
-                
-                DispatchQueue.main.async() {
-                    // Return and display current corrected angle from Platform & filterspeed processing
-                    self?.yaw.text = String(-deviceYaw) //TODO: Fix issue with `PlatformType` not taking precedence when using inline transcode decode function
-                    self?.pitch.text = String(m1Decode.getCurrentAngle().y)
-                    self?.roll.text = String(m1Decode.getCurrentAngle().z)
                 }
             })
-            print("Device motion started")
+            
+            /// Start headphone core motion manager thread
+            headphoneMotionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (headphonemotion, error) -> Void in
+                // block update thread unless all other motion managers are inactive
+                if (bUseCoreMotionHeadphones && headphoneMotionManager.isDeviceMotionAvailable) {
+                    // Get the attitudes of the device
+                    let hpattitude = headphonemotion?.attitude
+                    //Device orientation management
+                    deviceYaw = hpattitude!.yaw * 180 / .pi
+                    devicePitch = hpattitude!.pitch * 180 / .pi
+                    deviceRoll = hpattitude!.roll * 180 / .pi
+                    
+                    if isPlaying {
+                        //Send device orientation to m1obj with the preferred algo
+                        m1Decode.beginBuffer()
+                        m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(-deviceYaw), y: Float(devicePitch), z: Float(deviceRoll)))
+                        let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
+                        m1Decode.endBuffer()
+                                            
+                        //Use each coeff to decode multichannel Mach1 Spatial mix
+                        for i in 0..<result.count {
+                            players[i].setVolume(result[i], fadeDuration: 0)
+                            //print(String(players[i].currentTime) + " ; " + String(i))
+                        }
+                    }
+                    
+                    DispatchQueue.main.async() {
+                        // Return and display current corrected angle from Platform & filterspeed processing
+                        self?.yaw.text = String(m1Decode.getCurrentAngle().x)
+                        self?.pitch.text = String(m1Decode.getCurrentAngle().y)
+                        self?.roll.text = String(m1Decode.getCurrentAngle().z)
+                    }
+                }
+            })
+            print("Device coremotion started")
         } else {
-            print("Device motion unavailable");
+            print("Device coremotion unavailable");
         }
     }
     
