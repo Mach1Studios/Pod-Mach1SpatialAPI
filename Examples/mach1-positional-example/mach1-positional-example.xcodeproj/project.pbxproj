@@ -389,9 +389,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/swift/\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/ios/include/\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binmach1spatial-libs/ios/lib/\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -449,9 +449,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/swift/\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/ios/include/\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/ios/lib/\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;

@@ -38,7 +38,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         var angleVolume:Mach1Point3D = m1obj.getVolumeRotation();
         
-        cameraConeNode.eulerAngles =  SCNVector3(x: deg2rad(cameraPitch), y: deg2rad(cameraYaw), z: deg2rad(cameraRoll))
+        cameraConeNode.eulerAngles =  SCNVector3(x: deg2rad(cameraYaw), y: deg2rad(cameraPitch), z: deg2rad(cameraRoll))
         cameraConeNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: -cameraPosition.z * Float(size)/2)
 
         volumeHelperBoxNode.eulerAngles = SCNVector3(x: deg2rad(angleVolume.x), y: deg2rad(angleVolume.y), z: deg2rad(angleVolume.z))
