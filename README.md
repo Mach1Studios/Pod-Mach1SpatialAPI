@@ -32,6 +32,7 @@ permitted to use, link, compile and/or distribute any of the contents of this re
 To run any of the example projects, clone the repo, and run `pod install` from the Example directory first.
 or setup all the examples by running `make build` in this directory or following the README from each example.
 
+* spatialaudioplayer-example: Example of an end-user targeted playlist styled spatial audio player app, includes examples of handling orientation hand-off UX for public and common motion devices such as AirPods motion enabled devices.
 * mach1-decode-example: Example of using Mach1Decode API and device orientation to playback a spatial soundfield.
 * mach1-encode-example: Example UI of panning input mono/stereo sources to the Mach1 Spatial vector space via Mach1Encode API and playing it back simultaneously via the Mach1Decode API.
 * mach1-navigation-example: Example of using TTS output as a source input for the Mach1Encode API and spatializing the playback for usecases with navigation or spatial prompts.

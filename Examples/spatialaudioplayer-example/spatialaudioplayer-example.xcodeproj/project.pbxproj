@@ -1,0 +1,547 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A4625DFD273A25C50027476C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4625DFC273A25C50027476C /* AppDelegate.swift */; };
+		A4625DFF273A25C50027476C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4625DFE273A25C50027476C /* SceneDelegate.swift */; };
+		A4625E01273A25C50027476C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4625E00273A25C50027476C /* ViewController.swift */; };
+		A4625E04273A25C50027476C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4625E02273A25C50027476C /* Main.storyboard */; };
+		A4625E09273A25C80027476C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4625E07273A25C80027476C /* LaunchScreen.storyboard */; };
+		A47F12852744CCFC00139704 /* DeviceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F12842744CCFC00139704 /* DeviceSelectionViewController.swift */; };
+		A4C1968A2742D86800682EC8 /* 01-1.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C196222742D86400682EC8 /* 01-1.aac */; };
+		A4C196962742D86800682EC8 /* 01-8.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C1962E2742D86500682EC8 /* 01-8.aac */; };
+		A4C1969A2742D86800682EC8 /* 01-5.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C196322742D86500682EC8 /* 01-5.aac */; };
+		A4C196A42742D86800682EC8 /* 01-3.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C1963C2742D86500682EC8 /* 01-3.aac */; };
+		A4C196AD2742D86800682EC8 /* 01-7.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C196452742D86600682EC8 /* 01-7.aac */; };
+		A4C196BE2742D86800682EC8 /* 01-2.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C196562742D86600682EC8 /* 01-2.aac */; };
+		A4C196C02742D86800682EC8 /* 01-6.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C196582742D86700682EC8 /* 01-6.aac */; };
+		A4C196E52742D86800682EC8 /* 01-4.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4C1967D2742D86800682EC8 /* 01-4.aac */; };
+		A4DE766527433759003C8A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4625E05273A25C80027476C /* Assets.xcassets */; };
+		A4DE76782743882A003C8A52 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DE76772743882A003C8A52 /* ActivityIndicator.swift */; };
+		A4F943F828358BD500225FD7 /* Common in Resources */ = {isa = PBXBuildFile; fileRef = A4F943F728358BD500225FD7 /* Common */; };
+		A4F9440128358C1400225FD7 /* 02-6.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943F928358C1400225FD7 /* 02-6.aac */; };
+		A4F9440228358C1400225FD7 /* 02-4.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943FA28358C1400225FD7 /* 02-4.aac */; };
+		A4F9440328358C1400225FD7 /* 02-5.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943FB28358C1400225FD7 /* 02-5.aac */; };
+		A4F9440428358C1400225FD7 /* 02-3.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943FC28358C1400225FD7 /* 02-3.aac */; };
+		A4F9440528358C1400225FD7 /* 02-2.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943FD28358C1400225FD7 /* 02-2.aac */; };
+		A4F9440628358C1400225FD7 /* 02-1.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943FE28358C1400225FD7 /* 02-1.aac */; };
+		A4F9440728358C1400225FD7 /* 02-7.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F943FF28358C1400225FD7 /* 02-7.aac */; };
+		A4F9440828358C1400225FD7 /* 02-8.aac in Resources */ = {isa = PBXBuildFile; fileRef = A4F9440028358C1400225FD7 /* 02-8.aac */; };
+		A732217D26EC2C4688BC95F0 /* Pods_spatialaudioplayer_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FE25AF4E3B67351BB36E21 /* Pods_spatialaudioplayer_example.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2AC090F0CA0AC810A764C4F7 /* Pods-spatialaudioplayer-example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spatialaudioplayer-example.release.xcconfig"; path = "Target Support Files/Pods-spatialaudioplayer-example/Pods-spatialaudioplayer-example.release.xcconfig"; sourceTree = "<group>"; };
+		46712E178BA7BF7DFCC978A2 /* Pods-spatialaudioplayer-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spatialaudioplayer-example.debug.xcconfig"; path = "Target Support Files/Pods-spatialaudioplayer-example/Pods-spatialaudioplayer-example.debug.xcconfig"; sourceTree = "<group>"; };
+		A3FE25AF4E3B67351BB36E21 /* Pods_spatialaudioplayer_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_spatialaudioplayer_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4625DF9273A25C50027476C /* Mach1Spatial Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mach1Spatial Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4625DFC273A25C50027476C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A4625DFE273A25C50027476C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A4625E00273A25C50027476C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A4625E03273A25C50027476C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A4625E05273A25C80027476C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A4625E08273A25C80027476C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A47F12842744CCFC00139704 /* DeviceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSelectionViewController.swift; sourceTree = "<group>"; };
+		A4C196222742D86400682EC8 /* 01-1.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-1.aac"; sourceTree = "<group>"; };
+		A4C1962E2742D86500682EC8 /* 01-8.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-8.aac"; sourceTree = "<group>"; };
+		A4C196322742D86500682EC8 /* 01-5.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-5.aac"; sourceTree = "<group>"; };
+		A4C1963C2742D86500682EC8 /* 01-3.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-3.aac"; sourceTree = "<group>"; };
+		A4C196452742D86600682EC8 /* 01-7.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-7.aac"; sourceTree = "<group>"; };
+		A4C196562742D86600682EC8 /* 01-2.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-2.aac"; sourceTree = "<group>"; };
+		A4C196582742D86700682EC8 /* 01-6.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-6.aac"; sourceTree = "<group>"; };
+		A4C1967D2742D86800682EC8 /* 01-4.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "01-4.aac"; sourceTree = "<group>"; };
+		A4DE766A27434A26003C8A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4DE76772743882A003C8A52 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		A4F943F728358BD500225FD7 /* Common */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Common; sourceTree = "<group>"; };
+		A4F943F928358C1400225FD7 /* 02-6.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-6.aac"; sourceTree = "<group>"; };
+		A4F943FA28358C1400225FD7 /* 02-4.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-4.aac"; sourceTree = "<group>"; };
+		A4F943FB28358C1400225FD7 /* 02-5.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-5.aac"; sourceTree = "<group>"; };
+		A4F943FC28358C1400225FD7 /* 02-3.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-3.aac"; sourceTree = "<group>"; };
+		A4F943FD28358C1400225FD7 /* 02-2.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-2.aac"; sourceTree = "<group>"; };
+		A4F943FE28358C1400225FD7 /* 02-1.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-1.aac"; sourceTree = "<group>"; };
+		A4F943FF28358C1400225FD7 /* 02-7.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-7.aac"; sourceTree = "<group>"; };
+		A4F9440028358C1400225FD7 /* 02-8.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-8.aac"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A4625DF6273A25C50027476C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A732217D26EC2C4688BC95F0 /* Pods_spatialaudioplayer_example.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		68A61A741C1412B07326938D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3FE25AF4E3B67351BB36E21 /* Pods_spatialaudioplayer_example.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9AF90815D1312E1DECD0BCDB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				46712E178BA7BF7DFCC978A2 /* Pods-spatialaudioplayer-example.debug.xcconfig */,
+				2AC090F0CA0AC810A764C4F7 /* Pods-spatialaudioplayer-example.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A4625DF0273A25C50027476C = {
+			isa = PBXGroup;
+			children = (
+				A4625DFB273A25C50027476C /* spatialaudioplayer-example */,
+				A4625DFA273A25C50027476C /* Products */,
+				9AF90815D1312E1DECD0BCDB /* Pods */,
+				68A61A741C1412B07326938D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A4625DFA273A25C50027476C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A4625DF9273A25C50027476C /* Mach1Spatial Player.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A4625DFB273A25C50027476C /* spatialaudioplayer-example */ = {
+			isa = PBXGroup;
+			children = (
+				A4DE766A27434A26003C8A52 /* Info.plist */,
+				A4F943F728358BD500225FD7 /* Common */,
+				A4625EE1273A2A1B0027476C /* Audio */,
+				A4CCC0FF276184B400927819 /* Video */,
+				A4625DFC273A25C50027476C /* AppDelegate.swift */,
+				A4625DFE273A25C50027476C /* SceneDelegate.swift */,
+				A4DE76772743882A003C8A52 /* ActivityIndicator.swift */,
+				A47F12842744CCFC00139704 /* DeviceSelectionViewController.swift */,
+				A4625E00273A25C50027476C /* ViewController.swift */,
+				A4625E02273A25C50027476C /* Main.storyboard */,
+				A4625E05273A25C80027476C /* Assets.xcassets */,
+				A4625E07273A25C80027476C /* LaunchScreen.storyboard */,
+			);
+			path = "spatialaudioplayer-example";
+			sourceTree = "<group>";
+		};
+		A4625EE1273A2A1B0027476C /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				A4C196222742D86400682EC8 /* 01-1.aac */,
+				A4C196562742D86600682EC8 /* 01-2.aac */,
+				A4C1963C2742D86500682EC8 /* 01-3.aac */,
+				A4C1967D2742D86800682EC8 /* 01-4.aac */,
+				A4C196322742D86500682EC8 /* 01-5.aac */,
+				A4C196582742D86700682EC8 /* 01-6.aac */,
+				A4C196452742D86600682EC8 /* 01-7.aac */,
+				A4C1962E2742D86500682EC8 /* 01-8.aac */,
+				A4F943FE28358C1400225FD7 /* 02-1.aac */,
+				A4F943FD28358C1400225FD7 /* 02-2.aac */,
+				A4F943FC28358C1400225FD7 /* 02-3.aac */,
+				A4F943FA28358C1400225FD7 /* 02-4.aac */,
+				A4F943FB28358C1400225FD7 /* 02-5.aac */,
+				A4F943F928358C1400225FD7 /* 02-6.aac */,
+				A4F943FF28358C1400225FD7 /* 02-7.aac */,
+				A4F9440028358C1400225FD7 /* 02-8.aac */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		A4CCC0FF276184B400927819 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A4625DF8273A25C50027476C /* spatialaudioplayer-example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A4625E0D273A25C80027476C /* Build configuration list for PBXNativeTarget "spatialaudioplayer-example" */;
+			buildPhases = (
+				B67E5D3AFD2069DB98B982D7 /* [CP] Check Pods Manifest.lock */,
+				A4625DF5273A25C50027476C /* Sources */,
+				A4625DF6273A25C50027476C /* Frameworks */,
+				A4625DF7273A25C50027476C /* Resources */,
+				76EAA4D9A3C05CBCBA16216A /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "spatialaudioplayer-example";
+			productName = "spatialaudioplayer-example";
+			productReference = A4625DF9273A25C50027476C /* Mach1Spatial Player.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A4625DF1273A25C50027476C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					A4625DF8273A25C50027476C = {
+						CreatedOnToolsVersion = 13.0;
+					};
+				};
+			};
+			buildConfigurationList = A4625DF4273A25C50027476C /* Build configuration list for PBXProject "spatialaudioplayer-example" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A4625DF0273A25C50027476C;
+			productRefGroup = A4625DFA273A25C50027476C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A4625DF8273A25C50027476C /* spatialaudioplayer-example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A4625DF7273A25C50027476C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4C196962742D86800682EC8 /* 01-8.aac in Resources */,
+				A4C196E52742D86800682EC8 /* 01-4.aac in Resources */,
+				A4F9440828358C1400225FD7 /* 02-8.aac in Resources */,
+				A4C196A42742D86800682EC8 /* 01-3.aac in Resources */,
+				A4F9440628358C1400225FD7 /* 02-1.aac in Resources */,
+				A4F9440128358C1400225FD7 /* 02-6.aac in Resources */,
+				A4C1969A2742D86800682EC8 /* 01-5.aac in Resources */,
+				A4625E09273A25C80027476C /* LaunchScreen.storyboard in Resources */,
+				A4C1968A2742D86800682EC8 /* 01-1.aac in Resources */,
+				A4C196C02742D86800682EC8 /* 01-6.aac in Resources */,
+				A4F9440228358C1400225FD7 /* 02-4.aac in Resources */,
+				A4F9440728358C1400225FD7 /* 02-7.aac in Resources */,
+				A4F943F828358BD500225FD7 /* Common in Resources */,
+				A4C196BE2742D86800682EC8 /* 01-2.aac in Resources */,
+				A4C196AD2742D86800682EC8 /* 01-7.aac in Resources */,
+				A4F9440328358C1400225FD7 /* 02-5.aac in Resources */,
+				A4F9440528358C1400225FD7 /* 02-2.aac in Resources */,
+				A4F9440428358C1400225FD7 /* 02-3.aac in Resources */,
+				A4625E04273A25C50027476C /* Main.storyboard in Resources */,
+				A4DE766527433759003C8A52 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		76EAA4D9A3C05CBCBA16216A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-spatialaudioplayer-example/Pods-spatialaudioplayer-example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-spatialaudioplayer-example/Pods-spatialaudioplayer-example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-spatialaudioplayer-example/Pods-spatialaudioplayer-example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B67E5D3AFD2069DB98B982D7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-spatialaudioplayer-example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A4625DF5273A25C50027476C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4625E01273A25C50027476C /* ViewController.swift in Sources */,
+				A4625DFD273A25C50027476C /* AppDelegate.swift in Sources */,
+				A47F12852744CCFC00139704 /* DeviceSelectionViewController.swift in Sources */,
+				A4DE76782743882A003C8A52 /* ActivityIndicator.swift in Sources */,
+				A4625DFF273A25C50027476C /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A4625E02273A25C50027476C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A4625E03273A25C50027476C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A4625E07273A25C80027476C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A4625E08273A25C80027476C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A4625E0B273A25C80027476C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A4625E0C273A25C80027476C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A4625E0E273A25C80027476C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46712E178BA7BF7DFCC978A2 /* Pods-spatialaudioplayer-example.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "spatialaudioplayer-example/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Mach1Spatial Player";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Uses IMU enabled devices supported by Apple's CoreMotionHeadphoneManager API to playback headtracking spatial audio properly.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.spatialaudioplayer-example";
+				PRODUCT_NAME = "Mach1Spatial Player";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A4625E0F273A25C80027476C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2AC090F0CA0AC810A764C4F7 /* Pods-spatialaudioplayer-example.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "spatialaudioplayer-example/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Mach1Spatial Player";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Uses IMU enabled devices supported by Apple's CoreMotionHeadphoneManager API to playback headtracking spatial audio properly.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.spatialaudioplayer-example";
+				PRODUCT_NAME = "Mach1Spatial Player";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A4625DF4273A25C50027476C /* Build configuration list for PBXProject "spatialaudioplayer-example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4625E0B273A25C80027476C /* Debug */,
+				A4625E0C273A25C80027476C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A4625E0D273A25C80027476C /* Build configuration list for PBXNativeTarget "spatialaudioplayer-example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4625E0E273A25C80027476C /* Debug */,
+				A4625E0F273A25C80027476C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A4625DF1273A25C50027476C /* Project object */;
+}

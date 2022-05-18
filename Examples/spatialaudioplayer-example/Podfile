@@ -1,0 +1,7 @@
+target 'spatialaudioplayer-example' do
+  use_frameworks!
+  project './spatialaudioplayer-example.xcodeproj'
+  platform :ios, '14.0'
+  pod 'Mach1SpatialAPI', '~> 0.1.28'
+  pod 'PlayListPlayer'
+end
