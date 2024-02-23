@@ -47,8 +47,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     // MARK: - IBOutlets
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var playButtonLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var picker: UIPickerView!
-    @IBOutlet weak var currentPlayingString: UILabel!
+    @IBOutlet weak var currentConnectedDevice: UILabel!
     @IBOutlet weak var headphoneMotionManagerActive: UILabel!
     @IBOutlet weak var headingImage: UIImageView!
     @IBOutlet weak var backButton: UIButton!
@@ -57,7 +59,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var movieRenderingView: MovieRenderingView!
     @IBOutlet weak var headerLineOne: UILabel!
     @IBOutlet weak var headerLineTwo: UILabel!
-    @IBOutlet weak var headerLineThree: UILabel!
     @IBOutlet weak var albumImage: UIImageView!
     @IBOutlet weak var playControlsBG: UIView!
     
@@ -70,7 +71,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
 
     var pickerData: [AudioInput] = [
-        AudioInput(name: "Clock", videoIndex: -1, format: "Mach1Spatial", files: [
+        AudioInput(name: "The Clock", videoIndex: -1, format: "Mach1Spatial", files: [
             "01-1",
             "01-2",
             "01-3",
@@ -80,7 +81,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             "01-7",
             "01-8",
         ]),
-        AudioInput(name: "Chinatown Window", videoIndex: -1, format: "Mach1Spatial", files: [
+        AudioInput(name: "Chinatown - Window Scene", videoIndex: -1, format: "Mach1Spatial", files: [
             "02-1",
             "02-2",
             "02-3",
@@ -152,13 +153,26 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             isPlaying = true
         }
         playVideo()
-        let playButtonStatus = isPlaying ? "□" : "▷"
-        playButton.setTitle(playButtonStatus, for: [.normal])
+        
+        if isPlaying {
+            playButton.setBackgroundImage(UIImage(named: "stop"), for: .normal)
+            playButton.setBackgroundImage(UIImage(named: "stop"), for: .selected)
+            playButtonLabel.text = "Stop"
+            let thumbImage = UIImage(named: "playing_indicator")
+            playheadSlider.setThumbImage(thumbImage, for: .normal)
+            playheadSlider.setThumbImage(thumbImage, for: .highlighted)
+        } else {
+            playButton.setBackgroundImage(UIImage(named: "play"), for: .normal)
+            playButton.setBackgroundImage(UIImage(named: "play"), for: .selected)
+            playButtonLabel.text = "Play"
+            let thumbImage = UIImage(named: "indicator")
+            playheadSlider.setThumbImage(thumbImage, for: .normal)
+            playheadSlider.setThumbImage(thumbImage, for: .highlighted)
+        }
     }
     
     func loadSpatialAudioAssets(){
         currentSelection = picker.selectedRow(inComponent: 0)
-        currentPlayingString.text = pickerData[currentSelection].name
 
         do {
             players = []
@@ -217,8 +231,21 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         stopVideo()
         isPlaying = false
         
-        let playButtonStatus = isPlaying ? "□" : "▷"
-        playButton.setTitle(playButtonStatus, for: [.normal])
+        if isPlaying {
+            playButton.setBackgroundImage(UIImage(named: "stop"), for: .normal)
+            playButton.setBackgroundImage(UIImage(named: "stop"), for: .selected)
+            playButtonLabel.text = "Stop"
+            let thumbImage = UIImage(named: "playing_indicator")
+            playheadSlider.setThumbImage(thumbImage, for: .normal)
+            playheadSlider.setThumbImage(thumbImage, for: .highlighted)
+        } else {
+            playButton.setBackgroundImage(UIImage(named: "play"), for: .normal)
+            playButton.setBackgroundImage(UIImage(named: "play"), for: .selected)
+            playButtonLabel.text = "Play"
+            let thumbImage = UIImage(named: "indicator")
+            playheadSlider.setThumbImage(thumbImage, for: .normal)
+            playheadSlider.setThumbImage(thumbImage, for: .highlighted)
+        }
     }
         
     @IBAction func playButtonTapped(_ sender: UIButton) {
@@ -231,7 +258,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 loadSpatialAudioAssets()
             }
             startSpatialAudioPlayback(startTime: 0.0 + players[0].currentTime + playbackCurrentTimeFromBackground)
-            playbackCurrentTimeFromBackground = 0.0 //reset now that it has played again
+            playbackCurrentTimeFromBackground = 0.0 // reset now that it has played again
         } else if isPlaying {
             stopSpatialAudioPlayback(stopForUnload: false)
         }
@@ -313,7 +340,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.picker.dataSource = self
         headphoneMotionManager.delegate = self
         
-        let thumbImage = UIImage(named: "thumb")
+        let thumbImage = UIImage(named: "indicator")
         playheadSlider.setThumbImage(thumbImage, for: .normal)
         playheadSlider.setThumbImage(thumbImage, for: .highlighted)
         
@@ -324,18 +351,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         backButton.layer.zPosition = 99
         picker.layer.zPosition = 99
         playheadSlider.layer.zPosition = 99
-        currentPlayingString.layer.zPosition = 99
+        currentConnectedDevice.layer.zPosition = 99
         headerLineOne.layer.zPosition = 99
         headerLineTwo.layer.zPosition = 99
-        headerLineThree.layer.zPosition = 99
-        albumImage.layer.zPosition = 99
+        durationLabel.layer.zPosition = 99
         
         // play control background
         playControlsBG.alpha = 0.5
         playControlsBG.layer.cornerRadius = 20
 
         var urls: [URL] = []
-        for i in 0..<pickerData.count {
+        for i in 0..<pickerData.count-1 {
             if (pickerData[i].videoIndex > -1) {
                 let url: URL = URL(fileURLWithPath: Bundle.main.path(forResource: String(pickerData[i].videoIndex), ofType: "mp4")!)
                 urls.append(url)
@@ -437,6 +463,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                         }
                         self?.headphoneMotionManagerActive.text = (bUseCoreMotionHeadphones || bUseCustomOrientationInput) ? "🎧" : ""
                         if isPlaying {
+                            let formatter = DateComponentsFormatter()
+                            formatter.allowedUnits = [.minute, .second]
+                            formatter.zeroFormattingBehavior = .pad
+                            self?.durationLabel.text = String(formatter.string(from: players[0].currentTime)!)
+
                             let normalizedPos = players[0].currentTime / players[0].duration
                             if (!sliderCurrentlyTouched){ // update slider UI if not interacted with
                                 self?.playheadSlider.value = Float(normalizedPos)
@@ -446,6 +477,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                                 // play next track
                                 self?.nextButton.sendActions(for: .touchUpInside)
                             }
+                        } else {
+                            self?.durationLabel.text = "00:00"
                         }
                     }
                 }
@@ -489,6 +522,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                         }
                         self?.headphoneMotionManagerActive.text = (bUseCoreMotionHeadphones || bUseCustomOrientationInput) ? "🎧" : ""
                         if isPlaying {
+                            let formatter = DateComponentsFormatter()
+                            formatter.allowedUnits = [.minute, .second]
+                            formatter.zeroFormattingBehavior = .pad
+                            self?.durationLabel.text = String(formatter.string(from: players[0].currentTime)!)
+
                             let normalizedPos = players[0].currentTime / players[0].duration
                             if (!sliderCurrentlyTouched){ // update slider UI if not interacted with
                                 self?.playheadSlider.value = Float(normalizedPos)
@@ -498,6 +536,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                                 // play next track
                                 self?.nextButton.sendActions(for: .touchUpInside)
                             }
+                        } else {
+                            self?.durationLabel.text = "00:00"
                         }
                     }
                 }
@@ -547,12 +587,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 15)
+            pickerLabel?.font = UIFont(name: "Inter", size: 14)
+            pickerLabel?.adjustsFontForContentSizeCategory = true
             pickerLabel?.textAlignment = .left
         }
         pickerLabel?.text = pickerData[row].name
         pickerLabel?.textColor = UIColor.lightGray
+
         return pickerLabel!
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerView.reloadAllComponents()
     }
     
     // MARK: - Background handling
