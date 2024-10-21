@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 #pragma once
 
@@ -30,7 +30,7 @@ M1_API void *Mach1DecodePositionalCAPI_create();
 M1_API void Mach1DecodePositionalCAPI_delete(void *M1obj);
 
 M1_API void Mach1DecodePositionalCAPI_setPlatformType(void *M1obj, enum Mach1PlatformType platformType);
-M1_API void Mach1DecodePositionalCAPI_setDecodeAlgoType(void *M1obj, enum Mach1DecodeAlgoType newAlgorithmType);
+M1_API void Mach1DecodePositionalCAPI_setDecodeMode(void *M1obj, enum Mach1DecodeMode mode);
 
 M1_API void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(void *M1obj, bool muteWhenOutsideObject);
 M1_API void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void *M1obj, bool muteWhenInsideObject);
@@ -58,13 +58,14 @@ M1_API void Mach1DecodePositionalCAPI_getCoefficients(void *M1obj, float *result
 M1_API float Mach1DecodePositionalCAPI_getDist(void *M1obj);
 M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void *M1obj);
 M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(void *M1obj);
+M1_API int Mach1DecodePositionalCAPI_getFormatChannelCount(void *M1obj);
+M1_API int Mach1DecodePositionalCAPI_getFormatCoeffCount(void *M1obj);
+M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void *M1obj);
 M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void *M1obj, float filterSpeed);
 
-/* Experimental Functions/Features */
-M1_API void Mach1DecodePositionalCAPI_setUseBlendMode(void *M1obj, bool useBlendMode);
-M1_API void Mach1DecodePositionalCAPI_setIgnoreTopBottom(void *M1obj, bool ignoreTopBottom);
-M1_API void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void *M1obj, float attenuationCurveBlendMode);
-M1_API void Mach1DecodePositionalCAPI_getCoefficientsInterior(void *M1obj, float *result);
+M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void *M1obj);
+
+M1_API long Mach1DecodePositionalCAPI_getLastCalculationTime(void *M1obj);
 #ifdef __cplusplus
 }
 #endif

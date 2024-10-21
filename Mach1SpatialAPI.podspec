@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                     = 'Mach1SpatialAPI'
-  s.version                  = '0.1.30'
+  s.version                  = '0.2.0'
   s.summary                  = 'Mach1 Spatial APIs for Swift'
 
   s.description              = <<-DESC
@@ -13,17 +13,26 @@ Mach1 Spatial APIs are all contained in this pod which includes:
   s.author                   = { 'Mach1' => 'https://www.mach1.tech' }
   s.documentation_url        = 'https://dev.mach1.tech'
   s.source                   = { :git => 'https://github.com/Mach1Studios/Pod-Mach1SpatialAPI.git', :tag => s.version.to_s }
-  s.platform                 = :ios, "9.3", :osx, "10.10"
+  s.platform                 = :ios, "9.3", :osx, "10.10", :tvos, :watchos, :visionos
   s.swift_version            = "5.0"
-  s.pod_target_xcconfig      = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-  s.user_target_xcconfig     = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
-  s.source_files             = 'Mach1SpatialAPI/Classes/*.{h,swift}'
-  s.public_header_files      = 'Mach1SpatialAPI/Classes/*.h'
+  s.source_files                  = 'Mach1SpatialAPI/Classes/*.{h,swift}'
+  s.public_header_files           = 'Mach1SpatialAPI/Classes/*.h'
 
-  s.ios.vendored_libraries   = 'Mach1SpatialAPI/Lib/ios/*.a'
-  s.ios.libraries            = 'c++'
+  s.ios.vendored_libraries        = 'Mach1SpatialAPI/Lib/ios/*.a'
+  s.ios.libraries                 = 'c++'
 
-  s.osx.vendored_libraries   = 'Mach1SpatialAPI/Lib/osx/*.a'
-  s.osx.libraries            = 'c++'
+  s.osx.vendored_libraries        = 'Mach1SpatialAPI/Lib/osx/*.a'
+  s.osx.libraries                 = 'c++'
+  s.macos.vendored_libraries      = 'Mach1SpatialAPI/Lib/osx/*.a'
+  s.macos.libraries               = 'c++'
+
+  s.tvos.vendored_libraries       = 'Mach1SpatialAPI/Lib/tvos/*.a'
+  s.tvos.libraries                = 'c++'
+
+  s.watchos.vendored_libraries    = 'Mach1SpatialAPI/Lib/watchos/*.a'
+  s.watchos.libraries             = 'c++'
+
+  s.visionos.vendored_frameworks  = 'Mach1SpatialAPI/Lib/xros/*.xcframework'
+  s.visionos.libraries            = 'c++'
 end

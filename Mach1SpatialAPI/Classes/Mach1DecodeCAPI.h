@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 #pragma once
 
@@ -37,12 +37,11 @@ enum Mach1PlatformType {
     Mach1PlatformiOSPortrait_YawOnly
 };
 
-enum Mach1DecodeAlgoType {
-    Mach1DecodeAlgoSpatial_8 = (int)0,
-    Mach1DecodeAlgoHorizon_4,
-    Mach1DecodeAlgoHorizonPairs,
-    Mach1DecodeAlgoSpatial_12,
-    Mach1DecodeAlgoSpatial_14,
+enum Mach1DecodeMode {
+    M1DecodeSpatial_4 = (int)0,
+    M1DecodeSpatial_8,
+    M1DecodeSpatial_12,
+    M1DecodeSpatial_14,
 };
 
 #ifdef __cplusplus
@@ -51,20 +50,18 @@ extern "C" {
 M1_API void *Mach1DecodeCAPI_create();
 M1_API void Mach1DecodeCAPI_delete(void *M1obj);
 
-M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void *M1obj, enum Mach1DecodeAlgoType algorithmType);
+M1_API void Mach1DecodeCAPI_setDecodeMode(void *M1obj, enum Mach1DecodeMode mode);
 M1_API void Mach1DecodeCAPI_setPlatformType(void *M1obj, enum Mach1PlatformType platformType);
 
-M1_API enum Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void *M1obj);
+M1_API enum Mach1DecodeMode Mach1DecodeCAPI_getDecodeMode(void *M1obj);
 M1_API enum Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void *M1obj);
 
 M1_API void Mach1DecodeCAPI_decode(void *M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 M1_API void Mach1DecodeCAPI_decodeCoeffs(void *M1obj, float *result, int bufferSize, int sampleIndex);
+M1_API void Mach1DecodeCAPI_decodePannedCoeffs(void *M1obj, float *result, int bufferSize, int sampleIndex, bool applyPanLaw);
 M1_API void Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matrix, int channels, float *result, int bufferSize, int sampleIndex);
 
 M1_API void Mach1DecodeCAPI_setFilterSpeed(void *M1obj, float filterSpeed);
-M1_API void Mach1DecodeCAPI_beginBuffer(void *M1obj);
-M1_API void Mach1DecodeCAPI_endBuffer(void *M1obj);
-
 M1_API int Mach1DecodeCAPI_getFormatChannelCount(void *M1obj);
 M1_API int Mach1DecodeCAPI_getFormatCoeffCount(void *M1obj);
 M1_API void Mach1DecodeCAPI_setRotation(void *M1obj, struct Mach1Point3D newRotationFromMinusOnetoOne);
